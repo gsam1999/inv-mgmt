@@ -1,0 +1,42 @@
+<div>
+
+    <div class="mat-h2">Create new item type to Inventory </div>
+
+    <form #f='ngForm'>
+        <mat-form-field>
+            <input matInput placeholder="Item Name" name='Item Name' [(ngModel)]='model.name' type="text" required>
+        </mat-form-field>
+        <br>
+        <mat-form-field>
+            <mat-label>Choose a type</mat-label>
+            <mat-select [(ngModel)]='model.type' name='Item Type' required>
+                <mat-option value="Food"> Food</mat-option>
+                <mat-option value="Stationary"> Stationary </mat-option>
+                <mat-option value="Cookware"> Cookware </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <br>
+        <mat-form-field>
+            <input matInput placeholder="Measured In" name='Measured In' [(ngModel)]='model.measurement' type="text"
+                required>
+        </mat-form-field>
+        <br>
+
+        <mat-form-field>
+            <input matInput placeholder="Image Link" name='Image Link' [(ngModel)]='model.image' type="text" required>
+        </mat-form-field>
+        <br>
+
+        <mat-form-field>
+            <input matInput placeholder="Quantity" name='Quantity' [(ngModel)]='model.quantity' type="tel"
+                pattern='[0-9]*' required>
+        </mat-form-field>
+        <br>
+
+        <button type="submit" (click)='addQuantity()' mat-raised-button color="primary" [disabled]="f.invalid"> Create
+            Item
+        </button>
+    </form>
+
+</div>
