@@ -19,7 +19,7 @@ export class AddToItemComponent implements OnInit {
   }
 
   addQuantity() {
-    this.itemService.updateQuantity(this.model)
+    this.itemService.addQuantity(this.model)
     this.router.navigate(['/', 'home'])
   }
 

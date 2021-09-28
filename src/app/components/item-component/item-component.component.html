@@ -1,0 +1,17 @@
+<mat-card class="">
+    <mat-card-header>
+        <mat-card-title> {{item.name}}</mat-card-title>
+        <mat-card-subtitle>{{item.type}}</mat-card-subtitle>
+    </mat-card-header>
+    <img class="card-image" [src]="item.image">
+    <mat-card-content class="mt-2">
+        Avaiable Quantity: {{item.quantity+" " + item.measurement}} <br>
+    </mat-card-content>
+</mat-card>
+
+<div>
+    Transaction List
+    <ul>
+        <li *ngFor='let item1 of transactions'> {{ item1.type +" : " + item1.quantity + item.measurement}} </li>
+    </ul>
+</div>

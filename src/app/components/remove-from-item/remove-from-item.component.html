@@ -1,1 +1,22 @@
-<p>remove-from-item works!</p>
+<div>
+    <div class="mat-h2"> remove stock of an item </div>
+    <form #f='ngForm'>
+        <mat-form-field>
+            <mat-label>Choose item</mat-label>
+            <mat-select [(ngModel)]='model.name' name='Item' required>
+                <mat-option *ngFor='let item of items' [value]="item.name"> {{item.name}} </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <br>
+        <mat-form-field>
+            <input matInput placeholder="Quantity" name='Quantity' [(ngModel)]='model.quantity' type="tel"
+                pattern='[0-9]*' required>
+        </mat-form-field>
+        <br>
+
+        <button type="submit" (click)='addQuantity()' mat-raised-button color="primary" [disabled]="f.invalid"> Remove
+            Stock
+        </button>
+    </form>
+
+</div>

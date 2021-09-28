@@ -22,6 +22,7 @@ import { FlexLayoutModule } from "@angular/flex-layout";
 import { AddToItemComponent } from './components/add-to-item/add-to-item.component';
 import { RemoveFromItemComponent } from './components/remove-from-item/remove-from-item.component';
 import { MatSelectModule } from '@angular/material/select';
+import { ItemCOmponentComponent } from './components/item-component/item-component.component';
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import { MatSelectModule } from '@angular/material/select';
     HomeComponent,
     NewItemComponent,
     AddToItemComponent,
-    RemoveFromItemComponent
+    RemoveFromItemComponent,
+    ItemCOmponentComponent
   ],
   imports: [
     BrowserModule,
