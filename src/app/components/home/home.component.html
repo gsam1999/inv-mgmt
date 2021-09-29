@@ -14,7 +14,7 @@
 
 <div fxLayout="row wrap" fxLayoutGap="16px grid">
     <div *ngIf='!allItems.length'> No items available to display</div>
-    <div *ngIf='!items.length'> No items found</div>
+    <div *ngIf='!items.length && allItems.length'> No items found</div>
 
     <div *ngFor='let item of items;'>
         <mat-card>
