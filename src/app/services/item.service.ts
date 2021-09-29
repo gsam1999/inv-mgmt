@@ -1,12 +1,21 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 
 export interface item {
+  _id?: number;
   name: string;
   type: string;
   measurement: string;
   image: string;
-  quantity: number //{ [key: string]: number };
+  quantity: number; //{ [key: string]: number };
+  requiredPerMonth: number;
+}
+
+export interface transaction {
+  _id: number | null, quantity: number | null, action?: 'remove' | 'add'
 }
 
 @Injectable({
@@ -18,68 +27,29 @@ export class ItemService {
   itemList: Array<item> = [];
   transactions: Array<{ name: string, quantity: number, type: "added" | "removed" }> = [];
 
-  constructor() {
-    if (localStorage.getItem('items')) {
-      this.itemList = JSON.parse(localStorage.getItem('items') as string);
-    }
-    if (localStorage.getItem('transactions')) {
-      this.transactions = JSON.parse(localStorage.getItem('transactions') as string);
-    }
+  constructor(private http: HttpClient) {
   }
 
   branch = "branch1";
 
-
-  addToItem(item: item) {
-    this.itemList.push(item);
-    localStorage.setItem('items', JSON.stringify(this.itemList));
+  addItem(item: item) {
+    return this.http.post<item>(environment.apiURI + 'items', item);
   }
 
-  addQuantity(data: any) {
-
-    this.itemList.forEach(ele => {
-      if (ele.name == data.name) {
-        ele.quantity = Number(ele.quantity) + Number(data.quantity);
-        this.transactions.push({ name: data.name, quantity: data.quantity, type: 'added' })
-        return
-      }
-    })
-
-    localStorage.setItem('items', JSON.stringify(this.itemList));
-    localStorage.setItem('transactions', JSON.stringify(this.transactions))
+  updateQuantity(data: transaction) {
+    return this.http.post<item>(environment.apiURI + 'items/' + data._id + '/updatequantity', data);
   }
 
-  removeQuantity(data: any) {
-    this.itemList.forEach(ele => {
-      if (ele.name == data.name) {
-        this.transactions.push({ name: data.name, quantity: data.quantity, type: 'removed' })
-        ele.quantity = Number(ele.quantity) - Number(data.quantity);
-        return
-      }
-    })
-
-    localStorage.setItem('items', JSON.stringify(this.itemList));
-    localStorage.setItem('transactions', JSON.stringify(this.transactions))
+  getItems(): Observable<Array<item>> {
+    return this.http.get<Array<item>>(environment.apiURI + 'items');
   }
 
-  getItems(): Array<item> {
-    let items: Array<any> = [];
-
-    if (localStorage.getItem('items')) {
-      items = JSON.parse(localStorage.getItem('items') as string);
-    }
-
-    return items
+  getItem(id: number) {
+    return this.http.get<item>(environment.apiURI + 'items/' + id);
   }
 
-  getItem(name: string) {
-    let item;
-
-    if (localStorage.getItem('items')) {
-      item = (JSON.parse(localStorage.getItem('items') as string) as Array<item>).find(ele => ele.name == name);
-    }
-
-    return item
+  getHistory(id: number) {
+    return this.http.get<Array<{ itemid: number, data: any }>>(environment.apiURI + 'items/' + id + '/transactions');
   }
 
 

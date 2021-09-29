@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ItemService } from 'src/app/services/item.service';
+import { FormControl } from '@angular/forms';
+import { item, ItemService } from 'src/app/services/item.service';
 
 @Component({
   selector: 'app-home',
@@ -7,12 +8,21 @@ import { ItemService } from 'src/app/services/item.service';
 })
 export class HomeComponent implements OnInit {
 
+  searchControl: FormControl = new FormControl()
+  items: Array<item> = [];
+  allItems: Array<item> = [];
+
   constructor(private itemService: ItemService) { }
 
-  items: any = [];
-
   ngOnInit(): void {
-    this.items = this.itemService.getItems();
+
+    this.itemService.getItems().subscribe(data => { this.items = data; this.allItems = [...data] });
+
+    this.searchControl.valueChanges.subscribe(string => {
+      if (!string)
+        this.items = this.allItems;
+      this.items = this.items.filter(ele => ele.name.includes(string));
+    })
 
   }
 

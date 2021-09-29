@@ -10,8 +10,10 @@
 </mat-card>
 
 <div>
-    Transaction List
+    History
     <ul>
-        <li *ngFor='let item1 of transactions'> {{ item1.type +" : " + item1.quantity + item.measurement}} </li>
+        <li *ngFor='let item1 of transactions'> {{ (item1.data.action=='add'?"Added":"Removed") +" : " +
+            item1.data.quantity + item.measurement}}
+        </li>
     </ul>
 </div>

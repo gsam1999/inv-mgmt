@@ -1,21 +1,37 @@
 <div class="mat-h2">List of items</div>
 
+<div *ngIf='allItems.length' class="m-2 p-2">
+    <mat-form-field style="width: 300px;">
+        <mat-label>Search by name</mat-label>
+        <input type="text" placeholder="Search By Name" matInput [formControl]=searchControl [matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete">
+            <mat-option *ngFor="let item of items" [value]="item.name">
+                {{item.name}}
+            </mat-option>
+        </mat-autocomplete>
+    </mat-form-field>
+</div>
+
 <div fxLayout="row wrap" fxLayoutGap="16px grid">
-    <div *ngIf='!items.length'> No items available to display</div>
+    <div *ngIf='!allItems.length'> No items available to display</div>
+    <div *ngIf='!items.length'> No items found</div>
+
     <div *ngFor='let item of items;'>
-        <mat-card class="">
+        <mat-card>
             <mat-card-header>
                 <mat-card-title> {{item.name}}</mat-card-title>
                 <mat-card-subtitle>{{item.type}}</mat-card-subtitle>
             </mat-card-header>
             <img class="card-image" [src]="item.image">
             <mat-card-content class="mt-2">
-                Avaiable Quantity: {{item.quantity+" " + item.measurement}} <br>
+                <div [ngClass]="{'red-background':(item.requiredPerMonth>item.quantity)}">
+                    Avaiable Quantity: {{item.quantity+" " + item.measurement}} <br>
+                    Monthly Needed :{{item.requiredPerMonth+" "+item.measurement}}
+                </div>
             </mat-card-content>
             <mat-card-actions>
-                <button mat-button routerLink='/item/{{item.name}}'>View Item</button>
+                <button mat-button routerLink='/item/{{item._id}}'>View Item</button>
             </mat-card-actions>
         </mat-card>
-
     </div>
 </div>

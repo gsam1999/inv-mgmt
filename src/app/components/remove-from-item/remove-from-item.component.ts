@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ItemService, item } from 'src/app/services/item.service';
+import { ItemService, item, transaction } from 'src/app/services/item.service';
 
 @Component({
   selector: 'app-remove-from-item',
@@ -11,15 +11,17 @@ export class RemoveFromItemComponent implements OnInit {
   constructor(private itemService: ItemService, private router: Router) { }
 
   items: Array<item> = [];
+  item: any = {};
 
-  model = { name: '', quantity: '' };
+  model: transaction = { _id: null, quantity: null, action: 'remove' };
 
   ngOnInit(): void {
-    this.items = this.itemService.getItems();
+    this.itemService.getItems().subscribe(data => this.items = data);
   }
 
   addQuantity() {
-    this.itemService.removeQuantity(this.model)
-    this.router.navigate(['/', 'home'])
+    this.model._id = this.item._id;
+    this.itemService.updateQuantity(this.model).subscribe(data => this.router.navigate(['/', 'home']))
   }
+
 }

@@ -17,12 +17,13 @@ import { MatCardModule } from '@angular/material/card';
 
 import { MatListModule } from '@angular/material/list';
 import { MatInputModule } from '@angular/material/input';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { AddToItemComponent } from './components/add-to-item/add-to-item.component';
 import { RemoveFromItemComponent } from './components/remove-from-item/remove-from-item.component';
 import { MatSelectModule } from '@angular/material/select';
 import { ItemCOmponentComponent } from './components/item-component/item-component.component';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
@@ -50,7 +51,9 @@ import { ItemCOmponentComponent } from './components/item-component/item-compone
     MatInputModule,
     FormsModule,
     FlexLayoutModule,
-    MatSelectModule
+    MatSelectModule,
+    HttpClientModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

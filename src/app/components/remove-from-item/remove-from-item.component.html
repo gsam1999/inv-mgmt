@@ -1,12 +1,16 @@
 <div>
-    <div class="mat-h2"> remove stock of an item </div>
+    <div class="mat-h2"> Remove stock from an item </div>
     <form #f='ngForm'>
         <mat-form-field>
             <mat-label>Choose item</mat-label>
-            <mat-select [(ngModel)]='model.name' name='Item' required>
-                <mat-option *ngFor='let item of items' [value]="item.name"> {{item.name}} </mat-option>
+            <mat-select [(ngModel)]='item' name='Item' required>
+                <mat-option *ngFor='let item of items' [value]="item"> {{item.name}} </mat-option>
             </mat-select>
         </mat-form-field>
+        <br>
+        <div *ngIf='item.name'>
+            Avaiable quantity : {{item.quantity + " "+item.measurement}}
+        </div>
         <br>
         <mat-form-field>
             <input matInput placeholder="Quantity" name='Quantity' [(ngModel)]='model.quantity' type="tel"

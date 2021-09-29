@@ -14,12 +14,9 @@ export class ItemCOmponentComponent implements OnInit {
   item: any = {};
   transactions: any = [];
   ngOnInit(): void {
-
-    let id = this.route.snapshot.paramMap.get('id');
-
-    this.item = this.itemService.getItem(id as string);
-    this.transactions = this.itemService.transactions.filter(ele => ele.name == id)
-
+    let id = Number(this.route.snapshot.paramMap.get('id'));
+    this.itemService.getItem(id).subscribe(data => this.item = data);
+    this.itemService.getHistory(id).subscribe(data => this.transactions = data.reverse());
   }
 
 }

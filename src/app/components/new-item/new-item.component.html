@@ -2,38 +2,47 @@
 
     <div class="mat-h2">Create new item type to Inventory </div>
 
-    <form #f='ngForm'>
+    <form #f='ngForm' class="new-item-form">
         <mat-form-field>
-            <input matInput placeholder="Item Name" name='Item Name' [(ngModel)]='model.name' type="text" required>
-        </mat-form-field>
-        <br>
-        <mat-form-field>
-            <mat-label>Choose a type</mat-label>
-            <mat-select [(ngModel)]='model.type' name='Item Type' required>
+            <mat-label>Item type</mat-label>
+            <input type="text" placeholder="Pick one" name="item type" matInput [(ngModel)]='model.type'
+                [matAutocomplete]="auto" required>
+            <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
                 <mat-option value="Food"> Food</mat-option>
                 <mat-option value="Stationary"> Stationary </mat-option>
                 <mat-option value="Cookware"> Cookware </mat-option>
-            </mat-select>
+            </mat-autocomplete>
         </mat-form-field>
 
         <br>
         <mat-form-field>
+            <input matInput placeholder="Item Name" name='Item Name' [(ngModel)]='model.name' type="text" required>
+        </mat-form-field>
+        <br>
+
+        <br>
+
+        <mat-form-field style="width: 100px;margin-right: 12px;">
+            <input matInput placeholder="Monthly Usage" name='Monthly Usage' [(ngModel)]='model.requiredPerMonth'
+                type="number" pattern='[0-9]*' required>
+        </mat-form-field>
+        <mat-form-field style="width: 200px;" class="m-2">
             <input matInput placeholder="Measured In" name='Measured In' [(ngModel)]='model.measurement' type="text"
                 required>
         </mat-form-field>
         <br>
 
         <mat-form-field>
-            <input matInput placeholder="Image Link" name='Image Link' [(ngModel)]='model.image' type="text" required>
+            <input matInput placeholder="Image Link" name='Image Link' [(ngModel)]='model.image' type="text">
         </mat-form-field>
         <br>
 
         <mat-form-field>
-            <input matInput placeholder="Quantity" name='Quantity' [(ngModel)]='model.quantity' type="tel"
-                pattern='[0-9]*' required>
+            <mat-label>Notes</mat-label>
+            <textarea matInput placeholder="Comments, Descriptions etc"></textarea>
         </mat-form-field>
-        <br>
 
+        <br>
         <button type="submit" (click)='addQuantity()' mat-raised-button color="primary" [disabled]="f.invalid"> Create
             Item
         </button>
