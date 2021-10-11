@@ -19,11 +19,14 @@ import { MatListModule } from '@angular/material/list';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FlexLayoutModule } from "@angular/flex-layout";
-import { AddToItemComponent } from './components/add-to-item/add-to-item.component';
-import { RemoveFromItemComponent } from './components/remove-from-item/remove-from-item.component';
 import { MatSelectModule } from '@angular/material/select';
-import { ItemCOmponentComponent } from './components/item-component/item-component.component';
-import { HttpClientModule } from '@angular/common/http';
+import { ItemComponentComponent } from './components/item-component/item-component.component';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { LoginComponent } from './components/login/login.component';
+import { JwtInterceptor } from './services/token-interceptor.service';
+import { HistoryComponent } from './components/history/history.component';
+import { AdminComponent } from './components/admin/admin.component';
+
 
 
 @NgModule({
@@ -31,9 +34,10 @@ import { HttpClientModule } from '@angular/common/http';
     AppComponent,
     HomeComponent,
     NewItemComponent,
-    AddToItemComponent,
-    RemoveFromItemComponent,
-    ItemCOmponentComponent
+    ItemComponentComponent,
+    LoginComponent,
+    HistoryComponent,
+    AdminComponent
   ],
   imports: [
     BrowserModule,
@@ -55,7 +59,9 @@ import { HttpClientModule } from '@angular/common/http';
     HttpClientModule,
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

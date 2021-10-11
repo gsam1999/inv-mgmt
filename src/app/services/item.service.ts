@@ -12,10 +12,12 @@ export interface item {
   image: string;
   quantity: number; //{ [key: string]: number };
   requiredPerMonth: number;
+  notes: string;
+  transactions?: Array<transaction>;
 }
 
 export interface transaction {
-  _id: number | null, quantity: number | null, action?: 'remove' | 'add'
+  _id: number | null, quantity: number | null, action?: 'Remove' | 'Add' | null
 }
 
 @Injectable({
@@ -36,7 +38,7 @@ export class ItemService {
     return this.http.post<item>(environment.apiURI + 'items', item);
   }
 
-  updateQuantity(data: transaction) {
+  updateQuantity(data: transaction): Observable<item> {
     return this.http.post<item>(environment.apiURI + 'items/' + data._id + '/updatequantity', data);
   }
 
@@ -47,11 +49,5 @@ export class ItemService {
   getItem(id: number) {
     return this.http.get<item>(environment.apiURI + 'items/' + id);
   }
-
-  getHistory(id: number) {
-    return this.http.get<Array<{ itemid: number, data: any }>>(environment.apiURI + 'items/' + id + '/transactions');
-  }
-
-
 
 }

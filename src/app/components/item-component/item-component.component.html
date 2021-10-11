@@ -1,19 +1,64 @@
-<mat-card class="">
-    <mat-card-header>
-        <mat-card-title> {{item.name}}</mat-card-title>
-        <mat-card-subtitle>{{item.type}}</mat-card-subtitle>
-    </mat-card-header>
-    <img class="card-image" [src]="item.image">
-    <mat-card-content class="mt-2">
-        Avaiable Quantity: {{item.quantity+" " + item.measurement}} <br>
-    </mat-card-content>
-</mat-card>
+<ng-container *ngIf='item'>
 
-<div>
-    History
-    <ul>
-        <li *ngFor='let item1 of transactions'> {{ (item1.data.action=='add'?"Added":"Removed") +" : " +
-            item1.data.quantity + item.measurement}}
-        </li>
-    </ul>
-</div>
+    <div class="row">
+        <div class="col-md-4 p-2">
+            <mat-card>
+                <mat-card-header>
+                    <mat-card-title> {{item.name}}</mat-card-title>
+                    <mat-card-subtitle>{{item.type}}</mat-card-subtitle>
+                </mat-card-header>
+                <img class="card-image" [src]="item.image">
+                <mat-card-content class="mt-2">
+                    <div [ngClass]="{'red-background':(item.requiredPerMonth>item.quantity)}">
+                        Avaiable Quantity: {{item.quantity+" " + item.measurement}} <br>
+                        Monthly Needed :{{item.requiredPerMonth+" "+item.measurement}}
+                    </div>
+                    <div *ngIf='item.notes' class="pt-2">
+                        Notes : {{item.notes}}
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+        <div class="col-md-4 p-2">
+            <mat-card>
+                <mat-card-header>
+                    <mat-card-title> <button mat-button class="m-2" color="add-stock"
+                            (click)='model.action="Add";model.quantity=0;'> Add
+                            Stock </button>
+                        <button mat-button class="m-2" color="remove-stock"
+                            (click)='model.action="Remove";model.quantity=0;'> Remove
+                            stock</button>
+                    </mat-card-title>
+                </mat-card-header>
+                <mat-card-content style="margin-left: 24px;">
+                    <div *ngIf='model.action'>
+                        <div class="mat-h2"> {{model.action}} stock to an item </div>
+                        <form #f='ngForm'>
+                            <mat-form-field class="pl-2 pr-2" [style.width.px]=200>
+                                <input matInput placeholder="Enter Quantity" name='Quantity'
+                                    [(ngModel)]='model.quantity' type="number" [min]='1' required>
+                            </mat-form-field>
+                            <br>
+                            <button type="submit" (click)='updateStock(model.action)' mat-raised-button color="primary"
+                                [disabled]="f.invalid"> {{model.action}} stock
+                            </button>
+                        </form>
+                        <div *ngIf='message' class="p-2">
+                            {{message}}
+                        </div>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </div>
+    <div class="pt-3">
+        <div class="mat-h2"> History </div>
+        <div *ngIf='!item.transactions || item.transactions.length==0'> No data available </div>
+        <ol>
+            <li *ngFor='let transaction of item.transactions'> {{ (transaction.action=='Add'?"Added":"Removed") +" : " +
+                transaction.quantity +" "+ item.measurement}}
+            </li>
+        </ol>
+    </div>
+
+</ng-container>

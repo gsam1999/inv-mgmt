@@ -10,13 +10,13 @@ export class NewItemComponent implements OnInit {
 
   constructor(private itemService: ItemService, private router: Router) { }
 
-  model: item = { name: '', type: '', measurement: '', quantity: 0, image: '', requiredPerMonth: 0 };
+  model: item = { name: '', type: '', measurement: '', quantity: 0, image: '', requiredPerMonth: 0, notes: '' };
 
   ngOnInit(): void {
 
   }
 
-  addQuantity() {
+  addItem() {
     this.itemService.addItem(this.model).subscribe(data => {
       this.router.navigate(['/', 'home'])
     })

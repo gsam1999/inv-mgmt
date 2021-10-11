@@ -21,7 +21,7 @@ export class HomeComponent implements OnInit {
     this.searchControl.valueChanges.subscribe(string => {
       if (!string)
         this.items = this.allItems;
-      this.items = this.items.filter(ele => ele.name.includes(string));
+      this.items = this.items.filter(ele => ele.name.toLowerCase().includes(string.toLowerCase()));
     })
 
   }
