@@ -22,7 +22,9 @@
                 <mat-card-title> {{item.name}}</mat-card-title>
                 <mat-card-subtitle>{{item.type}}</mat-card-subtitle>
             </mat-card-header>
-            <img class="card-image" [src]="item.image">
+            <div style="height: 200px;">
+                <img class="card-image" [src]="item.image">
+            </div>
             <mat-card-content class="mt-2">
                 <div [ngClass]="{'red-background':(item.requiredPerMonth>item.quantity)}">
                     Avaiable Quantity: {{item.quantity+" " + item.measurement}} <br>

@@ -26,7 +26,11 @@ mat-drawer-content{
 }
 
 .card-image{
-    width: 200px;
+    max-width: 200px;
+    max-height: 200px;
+    width: auto;
+    height: auto;
+    
 }
 
 .app-container{
@@ -62,4 +66,32 @@ mat-drawer-content{
 .mat-remove-stock{
     background-color: orange;
     color: white;
+}
+
+.overlay {
+    position: fixed;   
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #00000099;
+    z-index: 2;
+    cursor: pointer;
+  }
+  .text{
+    position: absolute;
+    top: 50%;
+    font-size: 24px;  
+    color: white;
+    text-align: center;
+    transform: translate(0%,-50%);   
+    width: inherit;
+  }
+
+  .overlay{
+    .mat-progress-spinner circle, .mat-spinner circle {
+        stroke: #bababa;
+    }
 }

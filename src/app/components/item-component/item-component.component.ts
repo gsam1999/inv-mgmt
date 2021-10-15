@@ -16,9 +16,7 @@ export class ItemComponentComponent implements OnInit {
 
   ngOnInit(): void {
     let id = Number(this.route.snapshot.paramMap.get('id'));
-
     this.model._id = id;
-
     this.itemService.getItem(id).subscribe(data => {
       this.item = data;
     });

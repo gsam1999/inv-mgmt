@@ -26,7 +26,7 @@ import { LoginComponent } from './components/login/login.component';
 import { JwtInterceptor } from './services/token-interceptor.service';
 import { HistoryComponent } from './components/history/history.component';
 import { AdminComponent } from './components/admin/admin.component';
-
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 
 @NgModule({
@@ -57,7 +57,8 @@ import { AdminComponent } from './components/admin/admin.component';
     FlexLayoutModule,
     MatSelectModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatProgressSpinnerModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

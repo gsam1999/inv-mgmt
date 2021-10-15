@@ -19,8 +19,6 @@ class LoggedInUser {
   get token(): string {
     return this._token
   }
-
-
 }
 
 

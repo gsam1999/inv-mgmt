@@ -1,3 +1,11 @@
+<div class="overlay" *ngIf='isLoading'>
+  <div class="text">
+    <div class="p-2 mb-3"> {{loadingText}} </div>
+    <mat-spinner [diameter]="56" strokeWidth='5' [color]="'primary'" style="margin:auto;"></mat-spinner>
+  </div>
+</div>
+
+
 <mat-toolbar class="p-0 d-flex d-flex justify-content-between" color="primary" style="height: 48px;">
   <div>
     <button mat-button (click)="drawer.toggle()">
