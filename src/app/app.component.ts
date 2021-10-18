@@ -10,8 +10,9 @@ export class AppComponent {
   // title = 'inv-mgmt';  
   isLoading: boolean = true;
   loadingText: string = "";
+  isUserLoggedIn: boolean = false;
 
-  constructor(private userService: UserService, private loderService: LoaderService, private cd: ChangeDetectorRef) {
+  constructor(public userService: UserService, private loderService: LoaderService, private cd: ChangeDetectorRef) {
   }
 
   ngOnInit() {

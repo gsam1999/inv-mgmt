@@ -3,24 +3,27 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { branch } from './item.service';
+import { LoaderService } from './loader.service';
 
-class LoggedInUser {
-  constructor(name: string, branch: string, role: string, token: string) {
-    this.name = name;
-    this.branch = branch;
+
+export type UserWithPassword = User & { password?: string };
+
+export class User {
+  constructor(name: string, branch: Array<branch | string>, role: string, token: string, id: string) {
+    this.username = name;
+    this.branches = branch;
     this.role = role;
-    this._token = token;
+    this.token = token;
+    this._id = id;
   }
-  private name: string;
-  private branch: string;
-  private role: string;
-  private _token: string;
 
-  get token(): string {
-    return this._token
-  }
+  _id?: string;
+  username: string;
+  branches: Array<branch | string>;
+  role: string;
+  token: string;
 }
-
 
 @Injectable({
   providedIn: 'root'
@@ -28,24 +31,32 @@ class LoggedInUser {
 
 export class UserService {
 
-  loggedInUser: LoggedInUser | null = null;
+  loggedInUser: User | null = null;
   isUserLoggedIn: boolean = false;
 
-  constructor(private http: HttpClient, private router: Router) {
+  constructor(private http: HttpClient, private router: Router, private loader: LoaderService) {
     let data = this.getData();
-    if (data && data._token) {
-      this.loggedInUser = new LoggedInUser(data.name, data.branch, data.role, data._token);
+    if (data && data.token) {
+      this.loggedInUser = new User(data.name, data.branch, data.role, data.token, data.id);
       this.isUserLoggedIn = true;
     }
   }
 
-  login(returnUrl?: string) {
-    //this.http.post(environment.apiURI + 'login', {});  
-    this.loggedInUser = new LoggedInUser("sam", "branch1", "regular", "1233457")
-    this.isUserLoggedIn = true;
-    if (returnUrl)
-      this.router.navigateByUrl(returnUrl);
-    this.setData(this.loggedInUser)
+  login(username: string, password: string): Observable<any> {
+    return new Observable((obs) => {
+      this.loader.showLoading("Logging in...");
+      this.http.post(environment.apiURI + 'users/login', { username: username, password: password }).subscribe((data: any) => {
+        this.loggedInUser = new User("sam", ["branch1"], "regular", data.token, '1234')
+        this.isUserLoggedIn = true;
+        this.setData(this.loggedInUser);
+        this.loader.hideLoading();
+        obs.next(this.isUserLoggedIn);
+      }, err => {
+        console.log(err);
+        this.loader.hideLoading();
+        obs.next(this.isUserLoggedIn);
+      });
+    })
   }
 
   logout() {
@@ -54,6 +65,20 @@ export class UserService {
     this.removeData();
     this.router.navigateByUrl('/login');
   }
+
+  getUsers() {
+    return this.http.get<Array<User>>(environment.apiURI + 'users')
+  }
+
+  addUser(userData: UserWithPassword) {
+    return this.http.post<User>(environment.apiURI + 'users/register', userData)
+  }
+
+  updateUser(user: UserWithPassword) {
+    user.branches = (user.branches as branch[]).map(ele => (ele._id as string));
+    return this.http.put<User>(environment.apiURI + 'users/register', user)
+  }
+
 
   private setData(data: any) {
     data && localStorage.setItem('userData', JSON.stringify(data))

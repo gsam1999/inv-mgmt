@@ -1,25 +1,42 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { SortDirection } from '@angular/material/sort';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { newItem } from '../components/new-item/new-item.component';
 import { LoaderService } from './loader.service';
 
 
 export interface item {
   _id?: number;
   name: string;
-  type: string;
-  measurement: string;
-  image: string;
+  category?: category;
+  branch?: branch;
+  units: string;
+  imageLink: string;
   quantity: number; //{ [key: string]: number };
-  requiredPerMonth: number;
+  monthlyRequired: number;
   notes: string;
-  transactions?: Array<transaction>;
+  transactions?: Array<transaction>
 }
 
 export interface transaction {
-  _id: number | null, quantity: number | null, action?: 'Remove' | 'Add' | null
+  _id?: string | null,
+  item?: item | string,
+  quantity: number | null,
+  action?: 'Remove' | 'Add' | null
 }
+
+export interface category {
+  _id?: string;
+  name: string;
+}
+
+export interface branch {
+  _id?: string;
+  name: string;
+}
+
 
 @Injectable({
   providedIn: 'root'
@@ -27,38 +44,51 @@ export interface transaction {
 
 export class ItemService {
 
-  itemList: Array<item> = [];
-  transactions: Array<{ name: string, quantity: number, type: "added" | "removed" }> = [];
+  branches: Array<branch> = [];
+  categories: Array<category> = [];
 
   constructor(private http: HttpClient, private loader: LoaderService) {
+    this.http.get<Array<branch>>(environment.apiURI + 'items/branch').subscribe(data => {
+      this.branches = data;
+    })
+    this.http.get<Array<category>>(environment.apiURI + 'items/category').subscribe(data => {
+      this.categories = data;
+    })
   }
-
-  branch = "branch1";
 
   getObservable(obs: Observable<any>, text: string = 'Loading, Please Wait...'): Observable<any> {
     return new Observable(observer => {
       this.loader.showLoading(text);
-      setTimeout(() => {
-        obs.subscribe(data => { this.loader.hideLoading(); observer.next(data) }, err => { observer.next(err), () => { observer.complete() } })
-      }, 2000)
-
+      obs.subscribe(data => { this.loader.hideLoading(); observer.next(data) }, err => { this.loader.hideLoading(); observer.next(err), () => { observer.complete() } })
     })
   }
 
-  addItem(item: item) {
-    return this.getObservable(this.http.post<item>(environment.apiURI + 'items', item), "Adding Item");
-  }
-
-  updateQuantity(data: transaction): Observable<item> {
-    return this.getObservable(this.http.post<item>(environment.apiURI + 'items/' + data._id + '/updatequantity', data), "Updating Quantity...");
+  addItem(items: Array<newItem>) {
+    return this.getObservable(this.http.post<item>(environment.apiURI + 'items', { items: items }), "Adding Item");
   }
 
   getItems(): Observable<Array<item>> {
     return this.getObservable(this.http.get<Array<item>>(environment.apiURI + 'items'), "Loading Items")
   }
 
-  getItem(id: number) {
+  getItem(id: string) {
     return this.getObservable(this.http.get<item>(environment.apiURI + 'items/' + id));
+  }
+
+  getHistory(sort: string, order: SortDirection, page: number, pageSize: number): Observable<{ count: number, transactions: transaction[] }> {
+    return this.http.get<{ count: number, transactions: transaction[] }>(environment.apiURI + `items/Transactions?sort=${sort}&order=${order}&size=${pageSize}&page=${page}`)
+  }
+
+  getTransactions(): Observable<Array<transaction>> {
+    return this.getObservable(this.http.post<Array<transaction>>(environment.apiURI + 'items/GetTransactions', {}));
+  }
+
+  addCategory(name: string): Observable<Array<category>> {
+    return this.getObservable(this.http.post<Array<category>>(environment.apiURI + 'items/categories', { name: name }));
+  }
+
+  updateQuantity(data: transaction): Observable<item> {
+    return this.getObservable(this.http.post<item>(environment.apiURI + 'items/Transactions', data), "Updating Quantity...");
   }
 
 }

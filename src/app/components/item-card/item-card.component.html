@@ -1,0 +1,27 @@
+<mat-card *ngIf='item' style="height: 340px;width: 240px;">
+    <mat-card-header>
+        <mat-card-title> {{item.name}}</mat-card-title>
+        <mat-card-subtitle>{{item?.category?.name + " - " + item?.branch?.name}}</mat-card-subtitle>
+    </mat-card-header>
+    <div style="height: 160px;">
+        <img class="card-image" [src]="item.imageLink">
+    </div>
+    <mat-card-content class="m-1 mt-2">
+        <div [ngClass]="{'red-background':(item.monthlyRequired>item.quantity)}">
+            In Stock: {{item.quantity+" " + item.units}} <br>
+            Monthly Needed :{{item.monthlyRequired+" "+item.units}}
+        </div>
+        <div *ngIf='!lite && item.notes' class="mt-2">
+            Note : {{item.notes}}
+        </div>
+
+    </mat-card-content>
+    <mat-card-actions>
+        <button *ngIf='lite' style="width: 100%;" mat-stroked-button routerLink='/item/{{item._id}}'>View Item</button>
+        <div class="d-flex flex-row-reverse">
+            <button *ngIf='!lite' mat-mini-fab color="primary">
+                <mat-icon>delete</mat-icon>
+            </button>
+        </div>
+    </mat-card-actions>
+</mat-card>

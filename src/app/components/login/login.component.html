@@ -1,20 +1,24 @@
 <div>
     <mat-card [style.width.px]='300' style="margin:auto;margin-top: 100px;">
-        <mat-card-header class="text-center">
-            <mat-card-title>Login</mat-card-title>
-        </mat-card-header>
-        <mat-card-content class="text-center">
-            <mat-form-field>
-                <input matInput placeholder="Username" [(ngModel)]="username" name="username" required>
-            </mat-form-field>
-            <br>
-            <mat-form-field>
-                <input matInput placeholder="Password" [(ngModel)]="password" type="password" name="password" required>
-            </mat-form-field>
+        <mat-card-content class="text-center mb-0">
+            <form #f='ngForm'>
+                <mat-form-field style="width: 250px;">
+                    <input matInput placeholder="Enter Username" [(ngModel)]="username" name="username" required>
+                </mat-form-field>
+                <br>
+                <mat-form-field style="width: 250px;">
+                    <input matInput placeholder="Enter Password" [(ngModel)]="password" type="password" name="password"
+                        required>
+                </mat-form-field>
+            </form>
         </mat-card-content>
+        <div *ngIf=loginFailed class="text-danger p-2">
+            Invalid username or password
+        </div>
+
         <mat-card-actions>
             <div class="text-center">
-                <button mat-raised-button (click)="login()" color="primary">Login</button>
+                <button mat-raised-button (click)="login()" [disabled]="f.invalid" color="primary">Login</button>
             </div>
         </mat-card-actions>
     </mat-card>

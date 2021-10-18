@@ -1,46 +1,54 @@
-<div>
-    <div class="mat-h2">Create new item type to Inventory </div>
+<div class="m-2">
+    <div class="mat-h2">Add New Item </div>
 
     <form #f='ngForm' class="new-item-form">
-        <mat-form-field>
-            <mat-label>Item type</mat-label>
-            <input type="text" placeholder="Pick one" name="item type" matInput [(ngModel)]='model.type'
-                [matAutocomplete]="auto" required>
-            <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-                <mat-option value="Food"> Food</mat-option>
-                <mat-option value="Stationary"> Stationary </mat-option>
-                <mat-option value="Cookware"> Cookware </mat-option>
-            </mat-autocomplete>
-        </mat-form-field>
 
-        <br>
-        <mat-form-field>
+        <mat-form-field class="p-2">
             <input matInput placeholder="Item Name" name='Item Name' [(ngModel)]='model.name' type="text" required>
         </mat-form-field>
-
-        <br>
-        <mat-form-field style="width: 100px;margin-right: 12px;">
-            <input matInput placeholder="Monthly Usage" name='Monthly Usage' [(ngModel)]='model.requiredPerMonth'
-                type="number" pattern='[0-9]*' required>
-        </mat-form-field>
-
-        <mat-form-field style="width: 200px;" class="m-2">
-            <input matInput placeholder="Measured In" name='Measured In' [(ngModel)]='model.measurement' type="text"
-                required>
+        <mat-form-field class="p-2">
+            <mat-label>Item Category</mat-label>
+            <mat-select [(ngModel)]="model.category" name="category" required>
+                <mat-option *ngFor="let category of itemService.categories" [value]="category._id">
+                    {{category.name}}
+                </mat-option>
+            </mat-select>
         </mat-form-field>
         <br>
 
-        <mat-form-field>
-            <input matInput placeholder="Image Link" name='Image Link' [(ngModel)]='model.image' type="text">
+        <mat-form-field class="p-2">
+            <input matInput placeholder="Measured In" name='Measured In' [(ngModel)]='model.units' type="text" required>
+        </mat-form-field>
+        <mat-form-field class="p-2">
+            <input matInput placeholder="Image Link" name='Image Link' [(ngModel)]='model.imageLink' type="text">
         </mat-form-field>
         <br>
 
-        <mat-form-field>
+        <mat-form-field class="p-2">
             <mat-label>Notes</mat-label>
             <textarea matInput placeholder="Comments, Descriptions etc" name="notes"
                 [(ngModel)]='model.notes'></textarea>
         </mat-form-field>
 
+        <br>
+
+        <mat-form-field class="p-2">
+            <mat-label>Branches</mat-label>
+            <mat-select [(ngModel)]='branches' name='branches' multiple>
+                <mat-option *ngFor="let branch of itemService.branches" [value]="branch">{{branch.name}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <br>
+
+        <div class="mat-h3 p-1 mb-0" *ngIf='branches.length'>Enter Monthly Usage :</div>
+        <ng-container *ngFor='let branch of branches'>
+            <mat-form-field class="p-2" style="width: 150px;">
+                <input matInput [placeholder]="branch.name" name='Monthly Usage' [(ngModel)]='branch.monthlyRequired'
+                    type="number" required [min]=0>
+            </mat-form-field> {{model.units+" ,"}}
+
+        </ng-container>
         <br>
         <button type="submit" (click)='addItem()' mat-raised-button color="primary" [disabled]="f.invalid"> Create
             Item

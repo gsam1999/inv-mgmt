@@ -7,7 +7,12 @@
 
 
 <mat-toolbar class="p-0 d-flex d-flex justify-content-between" color="primary" style="height: 48px;">
-  <div>
+
+  <div *ngIf='!this.userService.isUserLoggedIn' class="p-2">
+    Login
+  </div>
+
+  <div *ngIf='this.userService.isUserLoggedIn'>
     <button mat-button (click)="drawer.toggle()">
       <mat-icon>menu</mat-icon>
     </button>
@@ -18,14 +23,14 @@
     <input type="text" matInput placeholder="Search for items">
   </div> -->
 
-  <div>
+  <div *ngIf='this.userService.isUserLoggedIn'>
     <button mat-icon-button [matMenuTriggerFor]="auth">
       <mat-icon>person_outline</mat-icon>
     </button>
     <mat-menu #auth="matMenu">
-      <button mat-menu-item>
+      <button mat-menu-item (click)='logOut()'>
         <mat-icon>exit_to_app</mat-icon>
-        <span (click)='logOut()'>Sign out</span>
+        <span>Sign out</span>
       </button>
     </mat-menu>
   </div>
@@ -46,7 +51,7 @@
       </a>
     </mat-nav-list>
   </mat-drawer>
-  <mat-drawer-content class="p-4 m-2">
+  <mat-drawer-content class="p-2 m-2" style="height: 95%;">
     <router-outlet></router-outlet>
   </mat-drawer-content>
 </mat-drawer-container>

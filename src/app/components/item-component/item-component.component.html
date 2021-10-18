@@ -2,63 +2,42 @@
 
     <div class="row">
         <div class="col-md-4 p-2">
-            <mat-card>
-                <mat-card-header>
-                    <mat-card-title> {{item.name}}</mat-card-title>
-                    <mat-card-subtitle>{{item.type}}</mat-card-subtitle>
-                </mat-card-header>
-                <img class="card-image" [src]="item.image">
-                <mat-card-content class="mt-2">
-                    <div [ngClass]="{'red-background':(item.requiredPerMonth>item.quantity)}">
-                        Avaiable Quantity: {{item.quantity+" " + item.measurement}} <br>
-                        Monthly Needed :{{item.requiredPerMonth+" "+item.measurement}}
-                    </div>
-                    <div *ngIf='item.notes' class="pt-2">
-                        Notes : {{item.notes}}
-                    </div>
-                </mat-card-content>
-            </mat-card>
+            <item-card [item]=item></item-card>
         </div>
-        <div class="col-md-4 p-2">
+        <div class="col-md-5 p-2">
             <mat-card>
-                <mat-card-header>
-                    <mat-card-title> <button mat-button class="m-2" color="add-stock"
-                            (click)='model.action="Add";model.quantity=0;'> Add
-                            Stock </button>
-                        <button mat-button class="m-2" color="remove-stock"
-                            (click)='model.action="Remove";model.quantity=0;'> Remove
-                            stock</button>
-                    </mat-card-title>
-                </mat-card-header>
+                <mat-card-title> <button mat-button class="m-2" color="add-stock" [disabled]='model.action=="Add"'
+                        (click)='model.action="Add";model.quantity=0;'> Add
+                        Stock </button>
+                    <button mat-button class="m-2" color="remove-stock" [disabled]='model.action=="Remove"'
+                        (click)='model.action="Remove";model.quantity=0;'> Remove
+                        stock</button>
+                </mat-card-title>
                 <mat-card-content style="margin-left: 24px;">
                     <div *ngIf='model.action'>
-                        <div class="mat-h2"> {{model.action}} stock to an item </div>
+                        <div class="mat-h2"> {{model.action=="Add"? ("Add Stock to " + item.name) : "Remove Stock"}}
+                        </div>
                         <form #f='ngForm'>
                             <mat-form-field class="pl-2 pr-2" [style.width.px]=200>
                                 <input matInput placeholder="Enter Quantity" name='Quantity'
-                                    [(ngModel)]='model.quantity' type="number" [min]='1' required>
+                                    [(ngModel)]='model.quantity' type="number" [min]='1'
+                                    [max]='model.action=="Add"?9999:item.quantity' required>
                             </mat-form-field>
                             <br>
                             <button type="submit" (click)='updateStock(model.action)' mat-raised-button color="primary"
-                                [disabled]="f.invalid"> {{model.action}} stock
+                                [disabled]="f.invalid"> {{model.action}} stock for {{item.name}}
                             </button>
                         </form>
-                        <div *ngIf='message' class="p-2">
-                            {{message}}
-                        </div>
+                    </div>
+                    <div *ngIf='message' class="p-2" [ngClass]="message.indexOf('Succ')?'text-success':'text-danger' ">
+                        {{message}}
                     </div>
                 </mat-card-content>
             </mat-card>
         </div>
     </div>
-    <div class="pt-3">
-        <div class="mat-h2"> History </div>
-        <div *ngIf='!item.transactions || item.transactions.length==0'> No data available </div>
-        <ol>
-            <li *ngFor='let transaction of item.transactions'> {{ (transaction.action=='Add'?"Added":"Removed") +" : " +
-                transaction.quantity +" "+ item.measurement}}
-            </li>
-        </ol>
+    <div class="pt-3 pb-3 mb-3 col-lg-12">
+        <history-grid [item]='item'></history-grid>
     </div>
 
 </ng-container>

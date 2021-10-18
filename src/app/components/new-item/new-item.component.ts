@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { item, ItemService } from 'src/app/services/item.service';
+import { branch, category, item, ItemService } from 'src/app/services/item.service';
+
+
+export type newItem = Omit<item, 'category' | 'branch'> & { category: string, branch: string }
 
 @Component({
   selector: 'app-new-item',
@@ -8,16 +11,25 @@ import { item, ItemService } from 'src/app/services/item.service';
 })
 export class NewItemComponent implements OnInit {
 
-  constructor(private itemService: ItemService, private router: Router) { }
+  constructor(public itemService: ItemService, private router: Router) { }
 
-  model: item = { name: '', type: '', measurement: '', quantity: 0, image: '', requiredPerMonth: 0, notes: '' };
+  model: newItem = { name: '', category: '', units: '', quantity: 0, imageLink: '', monthlyRequired: 0, branch: '', notes: '' };
+  branches: Array<branch & { monthlyRequired: number }> = []
 
   ngOnInit(): void {
-
   }
 
   addItem() {
-    this.itemService.addItem(this.model).subscribe(data => {
+
+    let items: Array<newItem> = [];
+    this.branches.forEach(ele => {
+      let model: newItem = { ...this.model };
+      model.branch = ele._id as string;
+      model.monthlyRequired = ele.monthlyRequired;
+      items.push(model);
+    })
+
+    this.itemService.addItem(items).subscribe(data => {
       this.router.navigate(['/', 'home'])
     })
 

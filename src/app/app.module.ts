@@ -27,6 +27,12 @@ import { JwtInterceptor } from './services/token-interceptor.service';
 import { HistoryComponent } from './components/history/history.component';
 import { AdminComponent } from './components/admin/admin.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { ItemCardComponent } from './components/item-card/item-card.component';
+import { HistoryGridComponent } from './components/history-grid/history-grid.component';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 
 @NgModule({
@@ -37,7 +43,9 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     ItemComponentComponent,
     LoginComponent,
     HistoryComponent,
-    AdminComponent
+    AdminComponent,
+    ItemCardComponent,
+    HistoryGridComponent
   ],
   imports: [
     BrowserModule,
@@ -58,7 +66,11 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatSelectModule,
     HttpClientModule,
     ReactiveFormsModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatExpansionModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

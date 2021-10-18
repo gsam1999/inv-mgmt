@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -8,18 +8,27 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private userService: UserService, private route: ActivatedRoute) { }
+  constructor(private userService: UserService, private route: ActivatedRoute, private router: Router) { }
 
   username: string = '';
   password: string = '';
   returnUrl: string = '/home';
+  loginFailed: boolean = false;
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => this.returnUrl = (params.returnUrl || this.returnUrl));
   }
 
   login() {
-    this.userService.login(this.returnUrl)
+    this.userService.login(this.username, this.password).subscribe(status => {
+      status && this.router.navigateByUrl(this.returnUrl);
+      this.loginFailed = !status
+      if (!status) {
+        this.loginFailed = true;
+        this.username = '';
+        this.password = '';
+      }
+    })
   }
 
 }
