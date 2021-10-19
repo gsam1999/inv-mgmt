@@ -1,49 +1,142 @@
 <div class="mat-h2">Admin Panel </div>
 
-<div class="col-lg-6 m-1">
+<div class="col-sm-8 m-1">
     <div class="mat-h3"> Manage Users </div>
     <mat-accordion multi>
-        <mat-expansion-panel *ngFor='let user of users;let i=index' [expanded]="step === i" (opened)="setStep(i)">
+        <mat-expansion-panel style="margin-left: 8px;" *ngFor='let user of users;let i=index' [expanded]="step1 === i"
+            (opened)="step1=i">
             <mat-expansion-panel-header class="p-2">
-                <mat-panel-title class="d-flex justify-content-between">
+                <mat-panel-title style="max-width: 200px;">
                     <mat-icon>account_circle</mat-icon>
-                    <span class="ml-2"> {{user.username}} </span> <span>{{getBranchNames(user.branches) + ")
-                        -"+user.role}}</span>
+                    <span style="margin-left: 8px;"> {{user.username || "Add New User" }}</span>
                 </mat-panel-title>
+                <mat-panel-description class="d-flex justify-content-between">
+                    <span style="margin-right: 8px;max-width: 60px;">{{user.role}}</span>
+                    <span>{{getBranchNames(user.branches)}}</span>
+                </mat-panel-description>
             </mat-expansion-panel-header>
             <form #f='ngForm'>
-                <mat-form-field appearance="fill" class="m-2">
+                <mat-form-field appearance="fill" class="p-2" *ngIf='!user._id'>
                     <mat-label>Username</mat-label>
-                    <input matInput [disabled]='true' [(ngModel)]="user.username" name="username">
+                    <input matInput [required]='!user._id' [(ngModel)]="user.username" name="username">
                 </mat-form-field>
 
-                <mat-form-field appearance="fill" class="m-2">
+                <mat-form-field appearance="fill" class="p-2">
                     <mat-label>Password</mat-label>
-                    <input matInput [(ngModel)]="user.password" type="password" name="password">
+                    <input matInput [(ngModel)]="user.password" [required]='!user._id' type="password" name="password">
                 </mat-form-field>
 
-                <br>
-                <mat-form-field appearance="fill" class="m-2">
+                <mat-form-field appearance="fill" class="p-2">
                     <mat-label>Role</mat-label>
-                    <mat-select [(ngModel)]='user.role' name='role'>
+                    <mat-select [(ngModel)]='user.role' name='role' [required]='!user._id'>
                         <mat-option value="regular"> regular </mat-option>
                         <mat-option value="admin"> admin </mat-option>
                     </mat-select>
                 </mat-form-field>
-                <mat-form-field appearance="fill" class="m-2">
+                <mat-form-field appearance="fill" class="p-2">
                     <mat-label>Branches</mat-label>
-                    <mat-select [(ngModel)]='user.branches' name='branches' multiple
+                    <mat-select [(ngModel)]='user.branches' name='branches' multiple [required]='!user._id'
                         [compareWith]="objectComparisonFunction">
                         <mat-option *ngFor="let branch of itemService.branches" [value]="branch">{{branch.name}}
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
-                <br>
+                <mat-slide-toggle *ngIf='user._id' [color]="'primary'" class="m-2" [(ngModel)]="user.active"
+                    name=active>
+                    Active User
+                </mat-slide-toggle>
             </form>
-            <div>
-                <button mat-raised-button (click)="updateUser(user)" color="primary">Update User
-                    Details</button>
-            </div>
+
+            <button mat-raised-button class="m-2" [disabled]='f.invalid' *ngIf='user._id' style="float: right;"
+                (click)="updateUser(user)" color="primary">Update
+                User
+                Details</button>
+            <button mat-raised-button class="m-2" [disabled]='f.invalid' *ngIf='!user._id' style="float: right;"
+                (click)="addUser(user)" color="primary">Create
+                User</button>
         </mat-expansion-panel>
+        <div class="d-flex flex-row-reverse" *ngIf='!step1 || users[step1]._id'>
+            <button class="m-2" mat-raised-button (click)='addNewUserObject()'>
+                Add User</button>
+        </div>
+    </mat-accordion>
+</div>
+
+<hr>
+<br>
+
+<div class="col-sm-8 m-1">
+    <div class="mat-h3"> Manage Categories </div>
+    <mat-accordion multi>
+        <mat-expansion-panel *ngFor='let category of categories;let i=index' [expanded]="step2 === i"
+            (opened)="step2=i">
+            <mat-expansion-panel-header class="p-2">
+                <mat-panel-title style="max-width: 200px;">
+                    <mat-icon>category</mat-icon>
+                    <span style="margin-left: 8px;"> {{ category.name || "Add New Category" }}</span>
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <form #f='ngForm'>
+                <mat-form-field appearance="fill" class="p-2">
+                    <mat-label>Category</mat-label>
+                    <input matInput required [(ngModel)]="category.name" name="name">
+                </mat-form-field>
+
+                <mat-slide-toggle *ngIf='category._id' [color]="'primary'" class="m-2" [(ngModel)]="category.active"
+                    name=active>
+                    Active category
+                </mat-slide-toggle>
+            </form>
+
+            <button mat-raised-button class="m-2" style="float: right;" *ngIf='category._id' [disabled]='f.invalid'
+                (click)="updateCategory(category)" color="primary">Update Category Details</button>
+
+            <button mat-raised-button class="m-2" style="float: right;" *ngIf='!category._id' [disabled]='f.invalid'
+                (click)="addCategory(category)" color="primary">Create Category</button>
+
+        </mat-expansion-panel>
+        <div class="d-flex flex-row-reverse" *ngIf='!step2 || categories[step2]._id'>
+            <button class="m-2" mat-raised-button (click)='addNewCategoryObject()'>
+                Add Category</button>
+        </div>
+    </mat-accordion>
+</div>
+
+<hr>
+<br>
+
+<div class="col-sm-8 m-1">
+    <div class="mat-h3"> Manage Branches </div>
+    <mat-accordion multi>
+        <mat-expansion-panel *ngFor='let branch of branches;let i=index' [expanded]="step3 === i" (opened)="step3=i">
+            <mat-expansion-panel-header class="p-2">
+                <mat-panel-title style="max-width: 200px;">
+                    <mat-icon>home</mat-icon>
+                    <span style="margin-left: 8px;"> {{ branch.name || "Add New branch" }}</span>
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <form #f='ngForm'>
+                <mat-form-field appearance="fill" class="p-2">
+                    <mat-label>Branch Name</mat-label>
+                    <input matInput required [(ngModel)]="branch.name" name="name">
+                </mat-form-field>
+
+                <mat-slide-toggle *ngIf='branch._id' [color]="'primary'" class="m-2" [(ngModel)]="branch.active"
+                    name=active>
+                    Active branch
+                </mat-slide-toggle>
+            </form>
+
+            <button mat-raised-button class="m-2" style="float: right;" *ngIf='branch._id' [disabled]='f.invalid'
+                (click)="updateBranch(branch)" color="primary">Update Branch Details</button>
+
+            <button mat-raised-button class="m-2" style="float: right;" *ngIf='!branch._id' [disabled]='f.invalid'
+                (click)="addBranch(branch)" color="primary">Create Branch</button>
+
+        </mat-expansion-panel>
+        <div class="d-flex flex-row-reverse" *ngIf='!step3 || branches[step3]._id'>
+            <button class="m-2" mat-raised-button (click)='addNewBranchObject()'>
+                Add branch</button>
+        </div>
     </mat-accordion>
 </div>

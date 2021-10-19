@@ -9,10 +9,12 @@ export class ItemCardComponent implements OnInit, OnChanges {
 
   @Input() item: item | null = null;
   @Input() lite: boolean = false;
+  deficit: 1 | 2 | 3 = 3;
 
   constructor() { }
 
   ngOnInit(): void {
+
   }
 
   ngOnChanges() {

@@ -1,18 +1,54 @@
 <div class="mat-h2">List of items</div>
 
-<div *ngIf='allItems.length' class="m-2 p-2">
-    <mat-form-field style="width: 300px;">
-        <mat-label>Search by name</mat-label>
-        <input type="text" placeholder="Search By Name" matInput [formControl]=searchControl [matAutocomplete]="auto">
-        <mat-autocomplete #auto="matAutocomplete">
-            <mat-option *ngFor="let item of items" [value]="item.name">
-                {{item.name}}
-            </mat-option>
-        </mat-autocomplete>
-    </mat-form-field>
+<div *ngIf='allItems.length' class="m-2 p-2 col-md-9">
+    <mat-card>
+        <mat-form-field class="p-2">
+            <mat-label>Search by name</mat-label>
+            <input type="text" placeholder="Search By Name" matInput [(ngModel)]=searchQuery name='search'
+                (ngModelChange)=filterChange() [matAutocomplete]="auto">
+            <mat-autocomplete #auto="matAutocomplete">
+                <mat-option *ngFor="let name of uniqueNames" [value]="name">
+                    {{name}}
+                </mat-option>
+            </mat-autocomplete>
+        </mat-form-field>
+
+        <mat-form-field class="p-2">
+            <mat-label>Search By Branch</mat-label>
+            <mat-select [(ngModel)]=branchQuery name='branch' multiple (ngModelChange)=filterChange()>
+                <mat-option *ngFor="let branch of itemService.branches" [value]="branch._id">{{branch.name}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="p-2">
+            <mat-label>Item Category</mat-label>
+            <mat-select [(ngModel)]="categoryQuery" name="category" (ngModelChange)=filterChange()>
+                <mat-option *ngFor="let category of itemService.categories" [value]="category._id">
+                    {{category.name}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="p-2">
+            <mat-label>Sort By</mat-label>
+            <mat-select [(ngModel)]="sortBy" name="sort" (ngModelChange)=filterChange()>
+                <mat-option value="needRefill">
+                    Need Refilling
+                </mat-option>
+                <mat-option value="name">
+                    Name
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <button mat-raised-button (click)="clearFilters()" class="m-2">
+            <mat-icon>clear_all</mat-icon> Clear Filters
+        </button>
+    </mat-card>
 </div>
 
-<div fxLayout="row wrap" fxLayoutGap="16px grid">
+<div fxLayout="row wrap" fxLayoutGap="24px grid" class="m-2 p-2">
     <div *ngIf='!allItems.length'> No items available to display</div>
     <div *ngIf='!items.length && allItems.length'> No items found</div>
 

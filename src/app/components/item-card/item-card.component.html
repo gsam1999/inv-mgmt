@@ -1,27 +1,34 @@
-<mat-card *ngIf='item' style="height: 340px;width: 240px;">
-    <mat-card-header>
-        <mat-card-title> {{item.name}}</mat-card-title>
-        <mat-card-subtitle>{{item?.category?.name + " - " + item?.branch?.name}}</mat-card-subtitle>
-    </mat-card-header>
-    <div style="height: 160px;">
-        <img class="card-image" [src]="item.imageLink">
+<div *ngIf='item'>
+    <div style=" border-radius: 4px;height: 4px;"
+        [ngClass]="{'bg-danger':(item.monthlyRequired/2>item.quantity),'bg-warning':(item.monthlyRequired>item.quantity),'bg-success': item.monthlyRequired<item.quantity}">
     </div>
-    <mat-card-content class="m-1 mt-2">
-        <div [ngClass]="{'red-background':(item.monthlyRequired>item.quantity)}">
-            In Stock: {{item.quantity+" " + item.units}} <br>
-            Monthly Needed :{{item.monthlyRequired+" "+item.units}}
+    <mat-card style="height: 345px;width: 240px;">
+        <mat-card-header>
+            <mat-card-title> {{item.name}}</mat-card-title>
+            <mat-card-subtitle>{{item?.category?.name + " - " + item?.branch?.name}}</mat-card-subtitle>
+        </mat-card-header>
+        <div style="height: 160px;">
+            <img class="card-image" [src]="item.imageLink">
         </div>
-        <div *ngIf='!lite && item.notes' class="mt-2">
-            Note : {{item.notes}}
-        </div>
+        <mat-card-content class="m-1 mt-2">
+            <div
+                [ngClass]="{'text-danger':(item.monthlyRequired/2>item.quantity),'text-warning':(item.monthlyRequired>item.quantity) }">
+                In Stock: {{item.quantity+" " + item.units}} <br>
+                Monthly Needed :{{item.monthlyRequired+" "+item.units}}
+            </div>
+            <div *ngIf='!lite && item.notes' class="mt-2">
+                Note : {{item.notes}}
+            </div>
 
-    </mat-card-content>
-    <mat-card-actions>
-        <button *ngIf='lite' style="width: 100%;" mat-stroked-button routerLink='/item/{{item._id}}'>View Item</button>
-        <div class="d-flex flex-row-reverse">
-            <button *ngIf='!lite' mat-mini-fab color="primary">
-                <mat-icon>delete</mat-icon>
-            </button>
-        </div>
-    </mat-card-actions>
-</mat-card>
+        </mat-card-content>
+        <mat-card-actions style="text-align: center;">
+            <button class="mat-elevation-z1" *ngIf='lite' style="width: 90%;" mat-button
+                routerLink='/item/{{item._id}}'>View Item</button>
+            <div class="d-flex flex-row-reverse">
+                <button *ngIf='!lite' mat-mini-fab color="primary">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </div>
+        </mat-card-actions>
+    </mat-card>
+</div>

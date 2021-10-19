@@ -1,4 +1,5 @@
 import { ChangeDetectorRef, Component } from '@angular/core';
+import { ItemService } from './services/item.service';
 import { LoaderService } from './services/loader.service';
 import { UserService } from './services/user.service';
 
@@ -12,7 +13,7 @@ export class AppComponent {
   loadingText: string = "";
   isUserLoggedIn: boolean = false;
 
-  constructor(public userService: UserService, private loderService: LoaderService, private cd: ChangeDetectorRef) {
+  constructor(public userService: UserService, private itemService: ItemService, private loderService: LoaderService, private cd: ChangeDetectorRef) {
   }
 
   ngOnInit() {

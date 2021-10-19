@@ -16,13 +16,14 @@ export class User {
     this.role = role;
     this.token = token;
     this._id = id;
-  }
 
-  _id?: string;
+  }
+  _id: string;
   username: string;
   branches: Array<branch | string>;
   role: string;
-  token: string;
+  token?: string;
+  active: boolean = true;
 }
 
 @Injectable({
@@ -70,15 +71,15 @@ export class UserService {
     return this.http.get<Array<User>>(environment.apiURI + 'users')
   }
 
-  addUser(userData: UserWithPassword) {
-    return this.http.post<User>(environment.apiURI + 'users/register', userData)
+  addUser(user: UserWithPassword) {
+    user.branches = (user.branches as branch[]).map(ele => (ele._id as string));
+    return this.http.post<User>(environment.apiURI + 'users/register', user)
   }
 
   updateUser(user: UserWithPassword) {
     user.branches = (user.branches as branch[]).map(ele => (ele._id as string));
     return this.http.put<User>(environment.apiURI + 'users/register', user)
   }
-
 
   private setData(data: any) {
     data && localStorage.setItem('userData', JSON.stringify(data))

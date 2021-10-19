@@ -16,7 +16,11 @@
     <button mat-button (click)="drawer.toggle()">
       <mat-icon>menu</mat-icon>
     </button>
-    <span [routerLink]="'/home'">Branch 1</span>
+    <button mat-button class="p-1">
+      <span [routerLink]="'/home'" class="p-1" style="font-size: 16px;">Stock Manager</span>
+      <mat-icon>store</mat-icon>
+      <mat-icon> local_mall</mat-icon>
+    </button>
   </div>
 
   <!-- <div style="background-color: aliceblue;">
@@ -51,7 +55,7 @@
       </a>
     </mat-nav-list>
   </mat-drawer>
-  <mat-drawer-content class="p-2 m-2" style="height: 95%;">
+  <mat-drawer-content class="p-3" style="height: 95%;">
     <router-outlet></router-outlet>
   </mat-drawer-content>
 </mat-drawer-container>

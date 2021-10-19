@@ -15,7 +15,7 @@ export class HistoryGridComponent implements AfterViewInit, OnChanges {
 
   @Input() item: item;
 
-  displayedColumns: string[] = ['createdAt', 'itemName', 'category', 'action'];
+  displayedColumns: string[] = ['createdAt', 'itemName', 'category', 'branch', 'action', 'username'];
   data: transaction[] = [];
   resultsLength = 0;
   isLoading: boolean = true;
@@ -49,6 +49,8 @@ export class HistoryGridComponent implements AfterViewInit, OnChanges {
   }
 
   ngOnChanges() {
+    if (this.item)
+      this.displayedColumns = ['createdAt', 'action', 'after', 'username']
     this.paginator && this.paginator.page.emit();
   }
 
