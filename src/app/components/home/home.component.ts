@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { branch, item, ItemService } from 'src/app/services/item.service';
+import { branch, category, item, ItemService } from 'src/app/services/item.service';
 
 @Component({
   selector: 'app-home',
@@ -34,7 +34,7 @@ export class HomeComponent implements OnInit {
     items = items.filter(ele => {
       let name = this.searchQuery ? ele.name.toLowerCase().includes(this.searchQuery.toLowerCase()) : true
       let branch = this.branchQuery.length ? this.branchQuery.indexOf((ele.branch as branch)._id as string) != -1 : true
-      let category = this.categoryQuery.length ? this.categoryQuery.indexOf((ele.branch as branch)._id as string) != -1 : true
+      let category = this.categoryQuery.length ? this.categoryQuery.indexOf((ele.category as category)._id as string) != -1 : true
 
       return name && branch && category
     });

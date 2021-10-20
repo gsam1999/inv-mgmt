@@ -1,0 +1,11 @@
+<ng-container *ngIf='data'>
+
+    <div *ngIf='data.type=="httpError"'>
+        {{data.error.status==0?"Network Error":"Server Error"}}
+    </div>
+
+    <div *ngIf='data.type=="error"'>
+        Some Error Occured
+    </div>
+
+</ng-container>

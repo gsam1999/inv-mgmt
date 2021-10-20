@@ -1,18 +1,22 @@
 <div>
-    <mat-card [style.width.px]='300' style="margin:auto;margin-top: 100px;">
+    <mat-card [style.width.px]='320' style="margin:auto;margin-top: 100px;" class="mat-elevation-z8">
+        <div class="mat-h2 d-flex justify-content-center" style="color:#3f51b5;">
+            <mat-icon class="pt-1">person_outline</mat-icon><span>Login</span>
+        </div>
+
         <mat-card-content class="text-center mb-0">
             <form #f='ngForm'>
                 <mat-form-field style="width: 250px;">
-                    <input matInput placeholder="Enter Username" [(ngModel)]="username" name="username" required>
+                    <input matInput placeholder="Username" [(ngModel)]="username" name="username" required>
                 </mat-form-field>
                 <br>
                 <mat-form-field style="width: 250px;">
-                    <input matInput placeholder="Enter Password" [(ngModel)]="password" type="password" name="password"
-                        required>
+                    <input matInput placeholder="Password" [(ngModel)]="password" type="password" name="password"
+                        minlength="4" required>
                 </mat-form-field>
             </form>
         </mat-card-content>
-        <div *ngIf=loginFailed class="text-danger p-2">
+        <div *ngIf=loginFailed class="text-danger m-3">
             Invalid username or password
         </div>
 

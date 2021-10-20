@@ -8,7 +8,7 @@ import { LoaderService } from './loader.service';
 
 
 export interface item {
-  _id?: number;
+  _id?: string;
   name: string;
   category?: category;
   branch?: branch;
@@ -23,7 +23,7 @@ export interface item {
 export interface transaction {
   _id?: string | null,
   item?: item | string,
-  quantity: number | null,
+  quantity: number,
   action?: 'Remove' | 'Add' | null
 }
 
@@ -65,7 +65,7 @@ export class ItemService {
   getObservable(obs: Observable<any>, text: string = 'Loading, Please Wait...'): Observable<any> {
     return new Observable(observer => {
       this.loader.showLoading(text);
-      obs.subscribe(data => { this.loader.hideLoading(); observer.next(data) }, err => { this.loader.hideLoading(); observer.next(err), () => { observer.complete() } })
+      obs.subscribe(data => { this.loader.hideLoading(); observer.next(data) }, err => { this.loader.hideLoading(); observer.error(err), () => { observer.complete() } })
     })
   }
 
@@ -81,8 +81,8 @@ export class ItemService {
     return this.getObservable(this.http.get<item>(environment.apiURI + 'items/' + id));
   }
 
-  getHistory(sort: string, order: SortDirection, page: number, pageSize: number): Observable<{ count: number, transactions: transaction[] }> {
-    return this.http.get<{ count: number, transactions: transaction[] }>(environment.apiURI + `items/Transactions?sort=${sort}&order=${order}&size=${pageSize}&page=${page}`)
+  getHistory(sort: string, order: SortDirection, page: number, pageSize: number, filters: { [key: string]: any }): Observable<{ count: number, transactions: transaction[] }> {
+    return this.http.get<{ count: number, transactions: transaction[] }>(environment.apiURI + `items/Transactions?sort=${sort}&order=${order}&size=${pageSize}&page=${page}&filters=${JSON.stringify(filters)}`)
   }
 
   getTransactions(): Observable<Array<transaction>> {

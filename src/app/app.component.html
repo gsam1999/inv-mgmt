@@ -5,15 +5,15 @@
   </div>
 </div>
 
+<div #ele></div>
 
 <mat-toolbar class="p-0 d-flex d-flex justify-content-between" color="primary" style="height: 48px;">
 
-  <div *ngIf='!this.userService.isUserLoggedIn' class="p-2">
-    Login
-  </div>
 
-  <div *ngIf='this.userService.isUserLoggedIn'>
-    <button mat-button (click)="drawer.toggle()">
+  <!-- <div *ngIf='!this.userService.isUserLoggedIn' style="width: 20px;"></div> -->
+
+  <div>
+    <button mat-button (click)="this.userService.isUserLoggedIn && drawer.toggle()" style="min-width: 56px;">
       <mat-icon>menu</mat-icon>
     </button>
     <button mat-button class="p-1">
@@ -22,10 +22,6 @@
       <mat-icon> local_mall</mat-icon>
     </button>
   </div>
-
-  <!-- <div style="background-color: aliceblue;">
-    <input type="text" matInput placeholder="Search for items">
-  </div> -->
 
   <div *ngIf='this.userService.isUserLoggedIn'>
     <button mat-icon-button [matMenuTriggerFor]="auth">
@@ -43,19 +39,21 @@
 <mat-drawer-container class="app-container">
   <mat-drawer #drawer class="sidenav" mode="over">
     <mat-nav-list>
-      <a mat-list-item [routerLink]="'/home'" routerLinkActive="sidenav-active-link" (click)="drawer.toggle()"> Home
+      <a mat-list-item [routerLink]="'/home'" routerLinkActive="sidenav-active-link" (click)="drawer.toggle()">
+        <mat-icon>home</mat-icon> <span class="m-2">Home</span>
       </a>
       <a mat-list-item [routerLink]="'/new-item'" routerLinkActive="sidenav-active-link" (click)="drawer.toggle()">
-        Create New Item </a>
-      <a mat-list-item [routerLink]="'/history'" routerLinkActive="sidenav-active-link" (click)="drawer.toggle()"> Stock
-        History
+        <mat-icon>add_box</mat-icon> <span class="m-2">Create New Item</span>
       </a>
-      <a mat-list-item [routerLink]="'/admin'" routerLinkActive="sidenav-active-link" (click)="drawer.toggle()"> Admin
-        Panel
+      <a mat-list-item [routerLink]="'/history'" routerLinkActive="sidenav-active-link" (click)="drawer.toggle()">
+        <mat-icon>history</mat-icon> <span class="m-2"> Stock History</span>
+      </a>
+      <a mat-list-item [routerLink]="'/admin'" routerLinkActive="sidenav-active-link" (click)="drawer.toggle()">
+        <mat-icon>supervised_user_circle</mat-icon> <span class="m-2">Admin Panel</span>
       </a>
     </mat-nav-list>
   </mat-drawer>
-  <mat-drawer-content class="p-3" style="height: 95%;">
+  <mat-drawer-content style="height: 95%;" [ngClass]="ele.offsetWidth>1000? 'large-screen' :'small-screen'">
     <router-outlet></router-outlet>
   </mat-drawer-content>
 </mat-drawer-container>

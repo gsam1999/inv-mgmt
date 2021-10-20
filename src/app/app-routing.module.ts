@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AdminComponent } from './components/admin/admin.component';
 import { HistoryGridComponent } from './components/history-grid/history-grid.component';
-import { HistoryComponent } from './components/history/history.component';
+//import { HistoryComponent } from './components/history/history.component';
 import { HomeComponent } from './components/home/home.component';
 import { ItemComponentComponent } from './components/item-component/item-component.component';
 import { LoginComponent } from './components/login/login.component';

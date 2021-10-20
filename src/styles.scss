@@ -126,3 +126,34 @@ history-grid{
 {
   padding: 8px;
 }
+
+.small-screen{
+  padding: 20px;
+}
+
+.large-screen{
+  padding-top: 24px;
+  padding-bottom: 24px;
+  padding-left: 48px;
+  padding-right: 48px;
+}
+
+// .mat-form-field-label{
+//   //transform: none !important;
+// }
+
+app-item-component{
+
+.mat-expansion-panel-body{
+  padding: 0px;
+}
+}
+
+.red-snackbar{
+  background-color:#B00020;
+  color: white;
+
+  .mat-simple-snackbar-action{
+    color: white;
+  }
+}

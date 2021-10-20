@@ -1,15 +1,16 @@
 import { Injectable } from '@angular/core';
 import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
 import { UserService } from './user.service';
+import { Router } from '@angular/router';
+
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
-    constructor(private userService: UserService) { }
+    constructor(private userService: UserService, private router: Router) { }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        // add authorization header with jwt token if available
+
         let currentUser = this.userService.loggedInUser;
         if (currentUser && currentUser.token) {
             request = request.clone({
@@ -18,7 +19,9 @@ export class JwtInterceptor implements HttpInterceptor {
                 }
             });
         }
-
-        return next.handle(request);
+        else {
+            this.router.navigate(['/', 'login']);
+        }
+        return next.handle(request)
     }
 }

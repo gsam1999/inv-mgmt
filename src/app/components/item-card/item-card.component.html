@@ -1,8 +1,8 @@
-<div *ngIf='item'>
+<div *ngIf='item' class="mat-elevation-z5">
     <div style=" border-radius: 4px;height: 4px;"
         [ngClass]="{'bg-danger':(item.monthlyRequired/2>item.quantity),'bg-warning':(item.monthlyRequired>item.quantity),'bg-success': item.monthlyRequired<item.quantity}">
     </div>
-    <mat-card style="height: 345px;width: 240px;">
+    <mat-card style="height: 345px;width: 240px;" class="mat-elevation-z0">
         <mat-card-header>
             <mat-card-title> {{item.name}}</mat-card-title>
             <mat-card-subtitle>{{item?.category?.name + " - " + item?.branch?.name}}</mat-card-subtitle>
@@ -22,13 +22,13 @@
 
         </mat-card-content>
         <mat-card-actions style="text-align: center;">
-            <button class="mat-elevation-z1" *ngIf='lite' style="width: 90%;" mat-button
-                routerLink='/item/{{item._id}}'>View Item</button>
-            <div class="d-flex flex-row-reverse">
+            <button class="mat-elevation-z3" *ngIf='lite' style="width: 90%;" mat-button
+                routerLink='/item/{{item._id}}'>VIEW ITEM</button>
+            <!-- <div class="d-flex flex-row-reverse">
                 <button *ngIf='!lite' mat-mini-fab color="primary">
                     <mat-icon>delete</mat-icon>
                 </button>
-            </div>
+            </div> -->
         </mat-card-actions>
     </mat-card>
 </div>

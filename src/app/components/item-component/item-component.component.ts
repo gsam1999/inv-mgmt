@@ -11,8 +11,10 @@ export class ItemComponentComponent implements OnInit {
   constructor(private route: ActivatedRoute, private itemService: ItemService) { }
 
   item: item | null = null;
-  model: transaction = { item: '', quantity: null, action: null };
-  message: string = ''
+  model: transaction = { item: '', quantity: 0, action: null };
+  message: string = '';
+  open: number = -1;
+
 
   ngOnInit(): void {
     let id = this.route.snapshot.paramMap.get('id');
@@ -21,8 +23,9 @@ export class ItemComponentComponent implements OnInit {
     });
   }
 
-  updateStock(action: string) {
+  updateStock(action: "Add" | "Remove") {
     this.model.item = this.route.snapshot.paramMap.get('id') as string;
+    this.model.action = action;
     this.itemService.updateQuantity(this.model).subscribe((data: item) => { this.item = data; this.updateMessage(true) }, err => this.updateMessage(false))
   }
 

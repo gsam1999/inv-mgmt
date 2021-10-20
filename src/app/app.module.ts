@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { ErrorHandler, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -24,7 +24,7 @@ import { ItemComponentComponent } from './components/item-component/item-compone
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { LoginComponent } from './components/login/login.component';
 import { JwtInterceptor } from './services/token-interceptor.service';
-import { HistoryComponent } from './components/history/history.component';
+//import { HistoryComponent } from './components/history/history.component';
 import { AdminComponent } from './components/admin/admin.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ItemCardComponent } from './components/item-card/item-card.component';
@@ -34,6 +34,9 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { SnackBarComponent } from './components/snack-bar/snack-bar.component';
+import { ErrorHandlerService } from './services/error-handler.service';
 
 
 @NgModule({
@@ -43,10 +46,11 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     NewItemComponent,
     ItemComponentComponent,
     LoginComponent,
-    HistoryComponent,
+    //HistoryComponent,
     AdminComponent,
     ItemCardComponent,
-    HistoryGridComponent
+    HistoryGridComponent,
+    SnackBarComponent
   ],
   imports: [
     BrowserModule,
@@ -72,10 +76,12 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     MatPaginatorModule,
     MatSortModule,
     MatExpansionModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatSnackBarModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: ErrorHandler, useClass: ErrorHandlerService }
   ],
   bootstrap: [AppComponent]
 })
