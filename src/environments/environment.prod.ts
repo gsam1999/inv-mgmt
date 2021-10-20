@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiURI: 'https://localhost:3443/'
+  apiURI: 'https://ec2-65-1-130-86.ap-south-1.compute.amazonaws.com:3443/'
 };
