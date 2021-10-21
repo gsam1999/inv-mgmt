@@ -7,34 +7,36 @@
 
 <div #ele></div>
 
-<mat-toolbar class="p-0 d-flex d-flex justify-content-between" color="primary" style="height: 48px;">
+<nav>
+  <mat-toolbar class="d-flex justify-content-between p-0" color="primary" style="position: fixed;z-index: 2;top:0">
 
 
-  <!-- <div *ngIf='!this.userService.isUserLoggedIn' style="width: 20px;"></div> -->
+    <!-- <div *ngIf='!this.userService.isUserLoggedIn' style="width: 20px;"></div> -->
 
-  <div>
-    <button mat-button (click)="this.userService.isUserLoggedIn && drawer.toggle()" style="min-width: 56px;">
-      <mat-icon>menu</mat-icon>
-    </button>
-    <button mat-button class="p-1">
-      <span [routerLink]="'/home'" class="p-1" style="font-size: 16px;">Stock Manager</span>
-      <mat-icon>store</mat-icon>
-      <mat-icon> local_mall</mat-icon>
-    </button>
-  </div>
-
-  <div *ngIf='this.userService.isUserLoggedIn'>
-    <button mat-icon-button [matMenuTriggerFor]="auth">
-      <mat-icon>person_outline</mat-icon>
-    </button>
-    <mat-menu #auth="matMenu">
-      <button mat-menu-item (click)='logOut()'>
-        <mat-icon>exit_to_app</mat-icon>
-        <span>Sign out</span>
+    <div>
+      <button mat-button (click)="this.userService.isUserLoggedIn && drawer.toggle()">
+        <mat-icon>menu</mat-icon>
       </button>
-    </mat-menu>
-  </div>
-</mat-toolbar>
+      <button mat-button class="p-1" [routerLink]="'/home'">
+        <span class="p-1" style="font-size: 18px;">Stock Manager</span>
+        <mat-icon>store</mat-icon>
+        <mat-icon> local_mall</mat-icon>
+      </button>
+    </div>
+
+    <div *ngIf='this.userService.isUserLoggedIn'>
+      <button mat-icon-button [matMenuTriggerFor]="auth">
+        <mat-icon>person_outline</mat-icon>
+      </button>
+      <mat-menu #auth="matMenu">
+        <button mat-menu-item (click)='logOut()'>
+          <mat-icon>exit_to_app</mat-icon>
+          <span>Sign out</span>
+        </button>
+      </mat-menu>
+    </div>
+  </mat-toolbar>
+</nav>
 
 <mat-drawer-container class="app-container">
   <mat-drawer #drawer class="sidenav" mode="over">
@@ -53,7 +55,7 @@
       </a>
     </mat-nav-list>
   </mat-drawer>
-  <mat-drawer-content style="height: 95%;" [ngClass]="ele.offsetWidth>1000? 'large-screen' :'small-screen'">
+  <div [ngClass]="ele.offsetWidth>1000? 'large-screen' :'small-screen'">
     <router-outlet></router-outlet>
-  </mat-drawer-content>
+  </div>
 </mat-drawer-container>
