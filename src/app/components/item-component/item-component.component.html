@@ -59,14 +59,6 @@
                 </div>
             </mat-expansion-panel>
         </mat-accordion>
-
-
-        <div class="col-md-5 p-2">
-            <div *ngIf='message' class="p-2" [ngClass]="message.indexOf('Removed')?'text-success':'text-danger' ">
-                {{message}}
-            </div>
-
-        </div>
     </div>
     <div class="pt-3 pb-3 mb-3 col-md-7">
         <history-grid [item]='item'></history-grid>

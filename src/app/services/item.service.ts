@@ -62,23 +62,16 @@ export class ItemService {
     this.http.get<Array<category>>(environment.apiURI + 'items/category').subscribe(data => { this.categories = data });
   }
 
-  getObservable(obs: Observable<any>, text: string = 'Loading, Please Wait...'): Observable<any> {
-    return new Observable(observer => {
-      this.loader.showLoading(text);
-      obs.subscribe(data => { this.loader.hideLoading(); observer.next(data) }, err => { this.loader.hideLoading(); observer.error(err), () => { observer.complete() } })
-    })
-  }
-
   addItem(items: Array<newItem>) {
-    return this.getObservable(this.http.post<item>(environment.apiURI + 'items', { items: items }), "Adding Item");
+    return this.loader.getObservable(this.http.post<item>(environment.apiURI + 'items', { items: items }), "Adding Item");
   }
 
   getItems(): Observable<Array<item>> {
-    return this.getObservable(this.http.get<Array<item>>(environment.apiURI + 'items'), "Loading Items")
+    return this.loader.getObservable(this.http.get<Array<item>>(environment.apiURI + 'items'), "Loading Items")
   }
 
   getItem(id: string) {
-    return this.getObservable(this.http.get<item>(environment.apiURI + 'items/' + id));
+    return this.loader.getObservable(this.http.get<item>(environment.apiURI + 'items/' + id));
   }
 
   getHistory(sort: string, order: SortDirection, page: number, pageSize: number, filters: { [key: string]: any }): Observable<{ count: number, transactions: transaction[] }> {
@@ -86,11 +79,11 @@ export class ItemService {
   }
 
   getTransactions(): Observable<Array<transaction>> {
-    return this.getObservable(this.http.post<Array<transaction>>(environment.apiURI + 'items/GetTransactions', {}));
+    return this.loader.getObservable(this.http.post<Array<transaction>>(environment.apiURI + 'items/GetTransactions', {}));
   }
 
   updateQuantity(data: transaction): Observable<item> {
-    return this.getObservable(this.http.post<item>(environment.apiURI + 'items/Transactions', data), "Updating Quantity...");
+    return this.loader.getObservable(this.http.post<item>(environment.apiURI + 'items/Transactions', data), "Updating Quantity...");
   }
 
   addCategory(category: category): Observable<Array<category>> {

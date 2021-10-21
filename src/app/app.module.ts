@@ -37,7 +37,6 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { SnackBarComponent } from './components/snack-bar/snack-bar.component';
 import { ErrorHandlerService } from './services/error-handler.service';
-import { NavComponent } from './components/nav/nav.component';
 
 
 @NgModule({
@@ -51,8 +50,7 @@ import { NavComponent } from './components/nav/nav.component';
     AdminComponent,
     ItemCardComponent,
     HistoryGridComponent,
-    SnackBarComponent,
-    NavComponent
+    SnackBarComponent
   ],
   imports: [
     BrowserModule,

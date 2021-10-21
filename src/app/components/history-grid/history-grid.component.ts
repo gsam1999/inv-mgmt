@@ -15,7 +15,7 @@ export class HistoryGridComponent implements AfterViewInit, OnChanges, OnInit {
 
   @Input() item: item;
 
-  displayedColumns: string[] = ['createdAt', 'itemName', 'category', 'branch', 'action', 'username'];
+  displayedColumns: string[] = ['createdAt', 'itemName', 'branch', 'action', 'username'];
   data: transaction[] = [];
   resultsLength = 0;
   isLoading: boolean = true;

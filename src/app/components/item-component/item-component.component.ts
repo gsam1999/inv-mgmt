@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { item, ItemService, transaction } from 'src/app/services/item.service';
 
@@ -8,7 +9,7 @@ import { item, ItemService, transaction } from 'src/app/services/item.service';
 })
 export class ItemComponentComponent implements OnInit {
 
-  constructor(private route: ActivatedRoute, private itemService: ItemService) { }
+  constructor(private route: ActivatedRoute, private itemService: ItemService, private snackBar: MatSnackBar) { }
 
   item: item | null = null;
   model: transaction = { item: '', quantity: 0, action: null };
@@ -30,8 +31,10 @@ export class ItemComponentComponent implements OnInit {
   }
 
   updateMessage(success: boolean) {
-    if (success)
+    if (success) {
       this.message = "Stock " + (this.model.action == "Add" ? 'Added' : 'Removed') + " Successfully"
+      this.snackBar.open(this.message, "ok", { duration: 5000 })
+    }
     else
       this.message = "Cannot Update Stock, please try again"
 

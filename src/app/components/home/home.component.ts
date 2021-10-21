@@ -41,7 +41,7 @@ export class HomeComponent implements OnInit {
 
     this.sortBy && (items = items.sort((a, b): number => {
       if (this.sortBy == 'needRefill') {
-        if ((a.quantity - a.monthlyRequired) >= (b.quantity - b.monthlyRequired))
+        if ((a.quantity - a.monthlyRequired) / a.monthlyRequired >= (b.quantity - b.monthlyRequired) / b.monthlyRequired)
           return 1
         else
           return -1

@@ -59,7 +59,7 @@
   </mat-expansion-panel>
 </mat-accordion>
 
-<div class="mat-elevation-z8 mb-2">
+<div class="mat-elevation-z8 mb-2 mt-3">
   <div *ngIf="isLoading" class="d-flex" style="height: 200px;width: 50%;position:absolute;">
     <mat-spinner [diameter]="56" strokeWidth='5' [color]="'primary'" style="margin:auto;"></mat-spinner>
   </div>
@@ -73,18 +73,15 @@
     </ng-container>
 
     <ng-container matColumnDef="itemName">
-      <th mat-header-cell *matHeaderCellDef>Item Name </th>
-      <td mat-cell *matCellDef="let row">{{row.item.name}}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="category">
-      <th mat-header-cell *matHeaderCellDef>Category</th>
-      <td mat-cell *matCellDef="let row">{{row.item.category.name}}</td>
+      <th mat-header-cell *matHeaderCellDef style="min-width: 90px;">Item Name </th>
+      <td mat-cell *matCellDef="let row"> <span class="clickable" routerLink='/item/{{row.item._id}}'> {{row.item.name}}
+          <span style="font-size: 10px;font-style: italic;">{{"("+row.item.category.name+")"
+            }}</span></span></td>
     </ng-container>
 
     <ng-container matColumnDef="branch">
       <th mat-header-cell *matHeaderCellDef>Branch</th>
-      <td mat-cell *matCellDef="let row">{{row.item.branch.name}}</td>
+      <td mat-cell *matCellDef="let row"> <span> {{row.item.branch.name}} </span> </td>
     </ng-container>
 
     <ng-container matColumnDef="before">

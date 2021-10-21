@@ -32,9 +32,11 @@ mat-drawer-content{
 }
 
 .app-container{        
-    margin-top:64px;
+    padding-top:64px;
     overflow-y: auto;
-    
+    height: 100%;    
+    position: fixed;
+    width: 100%;
 }
 
 .sidenav-active-link{
@@ -126,7 +128,13 @@ history-grid{
 }
 
 .small-screen{
-  padding: 20px;
+  padding: 20px;  
+}
+
+ @media screen and (max-width: 540px) {
+  tbody .mat-cell {
+    font-size: 12px ;
+  }
 }
 
 .large-screen{
@@ -156,6 +164,8 @@ app-item-component{
   }
 }
 
-text{
-  background-color: cyan;
+.clickable
+{ 
+  color:#3f51b5;
+  cursor: pointer;
 }

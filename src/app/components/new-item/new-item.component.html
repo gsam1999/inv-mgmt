@@ -1,6 +1,5 @@
-<div class="m-2">
-    <div class="mat-h2">Add New Item </div>
-
+<div class="mat-h2">Add New Item </div>
+<mat-card>
     <form #f='ngForm' class="new-item-form">
 
         <mat-form-field class="p-2">
@@ -20,7 +19,8 @@
             <input matInput placeholder="Measured In" name='Measured In' [(ngModel)]='model.units' type="text" required>
         </mat-form-field>
         <mat-form-field class="p-2">
-            <input matInput placeholder="Image Link" name='Image Link' [(ngModel)]='model.imageLink' type="text">
+            <input matInput placeholder="Image Link" name='Image Link' [(ngModel)]='model.imageLink' type="text"
+                pattern="(http|https)?:\/\/(\S+)">
         </mat-form-field>
         <br>
 
@@ -55,4 +55,4 @@
         </button>
     </form>
 
-</div>
+</mat-card>

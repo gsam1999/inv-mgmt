@@ -5,14 +5,8 @@
   </div>
 </div>
 
-<div #ele></div>
-
 <nav>
   <mat-toolbar class="d-flex justify-content-between p-0" color="primary" style="position: fixed;z-index: 2;top:0">
-
-
-    <!-- <div *ngIf='!this.userService.isUserLoggedIn' style="width: 20px;"></div> -->
-
     <div>
       <button mat-button (click)="this.userService.isUserLoggedIn && drawer.toggle()">
         <mat-icon>menu</mat-icon>
@@ -39,7 +33,7 @@
 </nav>
 
 <mat-drawer-container class="app-container">
-  <mat-drawer #drawer class="sidenav" mode="over">
+  <mat-drawer #drawer class="sidenav" mode="over" style="padding-top: 64px;">
     <mat-nav-list>
       <a mat-list-item [routerLink]="'/home'" routerLinkActive="sidenav-active-link" (click)="drawer.toggle()">
         <mat-icon>home</mat-icon> <span class="m-2">Home</span>
@@ -55,7 +49,10 @@
       </a>
     </mat-nav-list>
   </mat-drawer>
-  <div [ngClass]="ele.offsetWidth>1000? 'large-screen' :'small-screen'">
-    <router-outlet></router-outlet>
-  </div>
+  <mat-drawer-content>
+    <div #ele [ngClass]="ele.offsetWidth>1000? 'large-screen' :'small-screen'">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-drawer-content>
+
 </mat-drawer-container>

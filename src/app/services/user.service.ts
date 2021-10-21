@@ -68,7 +68,7 @@ export class UserService {
   }
 
   getUsers() {
-    return this.http.get<Array<User>>(environment.apiURI + 'users')
+    return this.loader.getObservable(this.http.get<Array<User>>(environment.apiURI + 'users'))
   }
 
   addUser(user: UserWithPassword) {
