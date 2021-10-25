@@ -24,7 +24,7 @@
                 <mat-form-field class="p-2">
                     <mat-label>Search By Branch</mat-label>
                     <mat-select [(ngModel)]=branchQuery name='branch' multiple (ngModelChange)=filterChange()>
-                        <mat-option *ngFor="let branch of itemService.branches" [value]="branch._id">{{branch.name}}
+                        <mat-option *ngFor="let branch of branches" [value]="branch._id">{{branch.name}}
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
@@ -32,7 +32,7 @@
                 <mat-form-field class="p-2">
                     <mat-label>Item Category</mat-label>
                     <mat-select [(ngModel)]="categoryQuery" name="category" (ngModelChange)=filterChange()>
-                        <mat-option *ngFor="let category of itemService.categories" [value]="category._id">
+                        <mat-option *ngFor="let category of categories" [value]="category._id">
                             {{category.name}}
                         </mat-option>
                     </mat-select>

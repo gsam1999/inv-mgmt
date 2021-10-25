@@ -1,14 +1,13 @@
 <div class="mat-h2">Add New Item </div>
-<mat-card>
+<mat-card class="col-md-8">
     <form #f='ngForm' class="new-item-form">
-
         <mat-form-field class="p-2">
             <input matInput placeholder="Item Name" name='Item Name' [(ngModel)]='model.name' type="text" required>
         </mat-form-field>
         <mat-form-field class="p-2">
             <mat-label>Item Category</mat-label>
             <mat-select [(ngModel)]="model.category" name="category" required>
-                <mat-option *ngFor="let category of itemService.categories" [value]="category._id">
+                <mat-option *ngFor="let category of categoryList" [value]="category._id">
                     {{category.name}}
                 </mat-option>
             </mat-select>
@@ -34,8 +33,9 @@
 
         <mat-form-field class="p-2">
             <mat-label>Branches</mat-label>
-            <mat-select [(ngModel)]='branches' name='branches' multiple>
-                <mat-option *ngFor="let branch of itemService.branches" [value]="branch">{{branch.name}}
+            <mat-select [(ngModel)]='branches' name='branches' multiple required [disabled]='!!id'
+                [compareWith]="objectComparisonFunction">
+                <mat-option *ngFor="let branch of branchList" [value]="branch">{{branch.name}}
                 </mat-option>
             </mat-select>
         </mat-form-field>
@@ -50,7 +50,12 @@
 
         </ng-container>
         <br>
-        <button type="submit" (click)='addItem()' mat-raised-button color="primary" [disabled]="f.invalid"> Create
+        <button type="submit" *ngIf='!id' (click)='addItem()' mat-raised-button color="primary" [disabled]="f.invalid">
+            Create
+            Item
+        </button>
+        <button type="submit" *ngIf='id' (click)='updateItem()' mat-raised-button color="primary"
+            [disabled]="f.invalid"> Update
             Item
         </button>
     </form>

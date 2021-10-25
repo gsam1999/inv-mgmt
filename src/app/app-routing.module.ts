@@ -15,6 +15,7 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
   { path: 'new-item', component: NewItemComponent, canActivate: [AuthGuard] },
   { path: 'item/:id', component: ItemComponentComponent, canActivate: [AuthGuard] },
+  { path: 'edit/:id', component: NewItemComponent, canActivate: [AuthGuard] },
   { path: 'history', component: HistoryGridComponent, canActivate: [AuthGuard] },
   { path: 'admin', component: AdminComponent, canActivate: [AuthGuard] }
 ];

@@ -11,43 +11,35 @@
     <div class="p-2">
       <mat-form-field class="p-2">
         <mat-label>Search by name</mat-label>
-        <input type="text" placeholder="Search By Name" matInput [(ngModel)]=filters.item name='search'
-          [matAutocomplete]="auto">
-        <mat-autocomplete #auto="matAutocomplete">
-          <mat-option *ngFor="let item of itemNames" [value]="item.name">
-            {{item.name}}
-          </mat-option>
-        </mat-autocomplete>
+        <input type="text" placeholder="Search By Name" matInput [(ngModel)]=filters.name name='search'>
       </mat-form-field>
 
-      <!-- <mat-form-field class="p-2">
-              <mat-label>Search By Branch</mat-label>
-              <mat-select [(ngModel)]=branchQuery name='branch' multiple (ngModelChange)=filterChange()>
-                  <mat-option *ngFor="let branch of itemService.branches" [value]="branch._id">{{branch.name}}
-                  </mat-option>
-              </mat-select>
-          </mat-form-field>
+      <mat-form-field class="p-2">
+        <mat-label>Search By Branch</mat-label>
+        <mat-select [(ngModel)]=filters.branches name='branch' multiple>
+          <mat-option *ngFor="let branch of branches" [value]="branch._id">{{branch.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
 
-          <mat-form-field class="p-2">
-              <mat-label>Item Category</mat-label>
-              <mat-select [(ngModel)]="categoryQuery" name="category" (ngModelChange)=filterChange()>
-                  <mat-option *ngFor="let category of itemService.categories" [value]="category._id">
-                      {{category.name}}
-                  </mat-option>
-              </mat-select>
-          </mat-form-field>
+      <mat-form-field class="p-2">
+        <mat-label>Item Category</mat-label>
+        <mat-select [(ngModel)]="filters.category" name="category" multiple>
+          <mat-option *ngFor="let category of categories" [value]="category._id">
+            {{category.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
 
-          <mat-form-field class="p-2">
-              <mat-label>Sort By</mat-label>
-              <mat-select [(ngModel)]="sortBy" name="sort" (ngModelChange)=filterChange()>
-                  <mat-option value="needRefill">
-                      Need Refilling
-                  </mat-option>
-                  <mat-option value="name">
-                      Name
-                  </mat-option>
-              </mat-select>
-          </mat-form-field> -->
+      <mat-form-field class="p-2">
+        <mat-label> Action Type </mat-label>
+        <mat-select [(ngModel)]="filters.action" name="action">
+          <mat-option value=""> Any </mat-option>
+          <mat-option value="Add"> Add </mat-option>
+          <mat-option value="Remove"> Remove </mat-option>
+        </mat-select>
+      </mat-form-field>
+
 
       <button mat-raised-button color='primary' (click)="applyFilters()" class="m-2">
         <mat-icon>search</mat-icon> Search
@@ -73,7 +65,7 @@
     </ng-container>
 
     <ng-container matColumnDef="itemName">
-      <th mat-header-cell *matHeaderCellDef style="min-width: 90px;">Item Name </th>
+      <th mat-header-cell *matHeaderCellDef style="min-width: 64px;">Item Name </th>
       <td mat-cell *matCellDef="let row"> <span class="clickable" routerLink='/item/{{row.item._id}}'> {{row.item.name}}
           <span style="font-size: 10px;font-style: italic;">{{"("+row.item.category.name+")"
             }}</span></span></td>
@@ -93,12 +85,12 @@
       <th mat-header-cell *matHeaderCellDef>Action</th>
       <td mat-cell *matCellDef="let row" [title]="row.action+'ed '+row.quantity"
         [ngClass]='row.action=="Add"?"text-success":"text-danger"'>{{(row.action=="Add"?"+":"-")+"
-        "+row.quantity+" "+row.item.units }}</td>
+        "+row.quantity+" "+ (item?row.item.units:'') }}</td>
     </ng-container>
 
     <ng-container matColumnDef="after">
       <th mat-header-cell *matHeaderCellDef>Result</th>
-      <td mat-cell *matCellDef="let row">{{row.after}}</td>
+      <td mat-cell *matCellDef="let row" class="text-center">{{row.after}}</td>
     </ng-container>
 
     <ng-container matColumnDef="username">
@@ -106,10 +98,26 @@
       <td mat-cell *matCellDef="let row">{{row?.user?.username}}</td>
     </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-  </table>
+    <ng-container matColumnDef="comments">
+      <th mat-header-cell *matHeaderCellDef>Comments</th>
+      <td mat-cell *matCellDef="let row" class="text-center">{{row?.comments}}</td>
+    </ng-container>
 
+    <ng-container matColumnDef="expiryDate">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Exp. Date</th>
+      <td mat-cell *matCellDef="let row" [ngClass]="getClass(row)">{{row.expiryDate | date}}</td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;" style="text-align: left;">
+    </tr>
+
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" colspan="9999">
+        No data matching the filter
+      </td>
+    </tr>
+  </table>
 
   <mat-paginator [length]="resultsLength" [pageSizeOptions]="[10, 25, 50]"
     aria-label="Select page of GitHub search results">

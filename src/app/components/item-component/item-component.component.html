@@ -14,16 +14,27 @@
                         <span class="p-1"> Add Stock</span>
                     </mat-panel-title>
                 </mat-expansion-panel-header>
-                <div class="p-3" style="background-color: #a0bba060;">
+                <div class="p-3" style="background-color: #a0cca060;">
                     <form #f='ngForm'>
-                        <mat-form-field class="pl-2 pr-2" [style.width.px]=180
-                            style="padding-left: 12px;padding-right: 12px;">
+                        <mat-form-field [style.width.px]=180 style="padding-left: 12px;padding-right: 12px;">
                             <input matInput placeholder="Enter Quantity" name='Quantity' [(ngModel)]='model.quantity'
                                 type="number" [min]='1' required>
                         </mat-form-field>
                         {{item.units}}
                         <br>
-                        <div class="d-flex flex-row-reverse">
+                        <mat-form-field [style.width.px]=180 style="padding-left: 8px;padding-right: 8px;">
+                            <mat-label>Expiry date</mat-label>
+                            <input matInput [matDatepicker]="picker" name="expiry date" [(ngModel)]='model.expiryDate'
+                                [min]="minDate">
+                            <mat-datepicker-toggle matSuffix [for]="picker" style="font-size: 24px;">
+                            </mat-datepicker-toggle>
+                            <mat-datepicker touchUi #picker></mat-datepicker>
+                        </mat-form-field>
+                        <br>
+                        <mat-form-field [style.width.px]=180 style="padding-left: 12px;padding-right: 12px;">
+                            <input matInput placeholder="Comments" name='Comments' [(ngModel)]='model.comments'>
+                        </mat-form-field>
+                        <div class="d-flex flex-row-reverse mt-3">
                             <button type="submit" (click)='updateStock("Add")' mat-raised-button color="primary"
                                 [disabled]="f.invalid"> Add Stock to {{item.name}}
                             </button>
@@ -50,7 +61,11 @@
                         </mat-form-field>
                         {{item.units}}
                         <br>
-                        <div class="d-flex flex-row-reverse">
+                        <mat-form-field [style.width.px]=180 style="padding-left: 12px;padding-right: 12px;">
+                            <input matInput placeholder="Comments" name='Comments' [(ngModel)]='model.comments'>
+                        </mat-form-field>
+                        <br>
+                        <div class="d-flex flex-row-reverse mt-2">
                             <button type="submit" (click)='updateStock("Remove")' mat-raised-button color="primary"
                                 [disabled]="f.invalid || (item.quantity<model.quantity)"> Remove Stock
                             </button>

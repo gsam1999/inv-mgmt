@@ -17,7 +17,7 @@ import { MatCardModule } from '@angular/material/card';
 
 import { MatListModule } from '@angular/material/list';
 import { MatInputModule } from '@angular/material/input';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { MatSelectModule } from '@angular/material/select';
 import { ItemComponentComponent } from './components/item-component/item-component.component';
@@ -35,8 +35,9 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { SnackBarComponent } from './components/snack-bar/snack-bar.component';
 import { ErrorHandlerService } from './services/error-handler.service';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 
 @NgModule({
@@ -49,8 +50,7 @@ import { ErrorHandlerService } from './services/error-handler.service';
     //HistoryComponent,
     AdminComponent,
     ItemCardComponent,
-    HistoryGridComponent,
-    SnackBarComponent
+    HistoryGridComponent
   ],
   imports: [
     BrowserModule,
@@ -70,18 +70,21 @@ import { ErrorHandlerService } from './services/error-handler.service';
     FlexLayoutModule,
     MatSelectModule,
     HttpClientModule,
-    ReactiveFormsModule,
     MatProgressSpinnerModule,
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
     MatExpansionModule,
     MatSlideToggleModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-    { provide: ErrorHandler, useClass: ErrorHandlerService }
+    { provide: ErrorHandler, useClass: ErrorHandlerService },
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   bootstrap: [AppComponent]
 })

@@ -13,7 +13,7 @@ export class AppComponent {
   loadingText: string = "";
   isUserLoggedIn: boolean = false;
 
-  constructor(public userService: UserService, private itemService: ItemService, private loderService: LoaderService, private cd: ChangeDetectorRef) {
+  constructor(public userService: UserService, private loderService: LoaderService, private cd: ChangeDetectorRef) {
   }
 
   ngOnInit() {

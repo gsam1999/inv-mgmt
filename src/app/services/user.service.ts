@@ -16,7 +16,6 @@ export class User {
     this.role = role;
     this.token = token;
     this._id = id;
-
   }
   _id: string;
   username: string;
@@ -38,7 +37,7 @@ export class UserService {
   constructor(private http: HttpClient, private router: Router, private loader: LoaderService) {
     let data = this.getData();
     if (data && data.token) {
-      this.loggedInUser = new User(data.name, data.branch, data.role, data.token, data.id);
+      this.loggedInUser = new User(data.username, data.branches, data.role, data.token, data._id);
       this.isUserLoggedIn = true;
     }
   }
@@ -46,8 +45,8 @@ export class UserService {
   login(username: string, password: string): Observable<any> {
     return new Observable((obs) => {
       this.loader.showLoading("Logging in...");
-      this.http.post(environment.apiURI + 'users/login', { username: username, password: password }).subscribe((data: any) => {
-        this.loggedInUser = new User("sam", ["branch1"], "regular", data.token, '1234')
+      this.http.post<User>(environment.apiURI + 'users/login', { username: username, password: password }).subscribe((data: User) => {
+        this.loggedInUser = new User(data.username, data.branches, data.role, data.token as string, data._id)
         this.isUserLoggedIn = true;
         this.setData(this.loggedInUser);
         this.loader.hideLoading();
@@ -85,7 +84,7 @@ export class UserService {
     data && localStorage.setItem('userData', JSON.stringify(data))
   }
 
-  private getData(): any | null {
+  private getData(): User | null {
     let data = localStorage.getItem('userData')
     if (data)
       return JSON.parse(data);

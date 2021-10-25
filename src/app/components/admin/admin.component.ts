@@ -16,16 +16,16 @@ export class AdminComponent implements OnInit {
   step2: number | null;
   step3: number | null;
 
-  constructor(private userService: UserService, public itemService: ItemService) { }
+  constructor(private userService: UserService, private itemService: ItemService) { }
 
   ngOnInit(): void {
     this.userService.getUsers().subscribe(users => {
       this.users = users;
       this.step1 = null;
-      this.branches = [...this.itemService.branches]
-      this.categories = [...this.itemService.categories];
     })
 
+    this.itemService.getCategory().subscribe(data => this.categories = data);
+    this.itemService.getBranch().subscribe(data => this.branches = data);
   }
 
   getBranchNames(branches: Array<branch | string>) {
@@ -49,16 +49,12 @@ export class AdminComponent implements OnInit {
 
   updateCategory(category: category) {
     this.itemService.updateCategory({ ...category }).subscribe(data => {
-      this.itemService.categories = data;
-      this.categories = [...data];
       this.step2 = null;
     })
   }
 
   addCategory(category: category) {
     this.itemService.addCategory(category).subscribe(data => {
-      this.itemService.categories = data
-      this.categories = [...data];
       this.step2 = null;
     })
   }
@@ -70,7 +66,6 @@ export class AdminComponent implements OnInit {
 
   updateBranch(branch: branch) {
     this.itemService.updateBranch({ ...branch }).subscribe(data => {
-      this.itemService.branches = data;
       this.ngOnInit();
       this.step3 = null;
     })
@@ -78,8 +73,6 @@ export class AdminComponent implements OnInit {
 
   addBranch(branch: branch) {
     this.itemService.addBranch(branch).subscribe(data => {
-      this.itemService.branches = data
-      this.branches = [...data];
       this.step3 = null;
     })
   }

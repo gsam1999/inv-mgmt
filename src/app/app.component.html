@@ -14,11 +14,11 @@
       <button mat-button class="p-1" [routerLink]="'/home'">
         <span class="p-1" style="font-size: 18px;">Stock Manager</span>
         <mat-icon>store</mat-icon>
-        <mat-icon> local_mall</mat-icon>
       </button>
     </div>
 
     <div *ngIf='this.userService.isUserLoggedIn'>
+      <span style="font-size: 14px;"> {{userService.loggedInUser?.username}} </span>
       <button mat-icon-button [matMenuTriggerFor]="auth">
         <mat-icon>person_outline</mat-icon>
       </button>
@@ -44,7 +44,8 @@
       <a mat-list-item [routerLink]="'/history'" routerLinkActive="sidenav-active-link" (click)="drawer.toggle()">
         <mat-icon>history</mat-icon> <span class="m-2"> Stock History</span>
       </a>
-      <a mat-list-item [routerLink]="'/admin'" routerLinkActive="sidenav-active-link" (click)="drawer.toggle()">
+      <a mat-list-item [routerLink]="'/admin'" routerLinkActive="sidenav-active-link" (click)="drawer.toggle()"
+        *ngIf='userService.loggedInUser?.role=="admin"'>
         <mat-icon>supervised_user_circle</mat-icon> <span class="m-2">Admin Panel</span>
       </a>
     </mat-nav-list>

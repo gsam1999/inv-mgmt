@@ -3,9 +3,7 @@
 //html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
-
 $color-primary : #3f51b5;
-
 
 .sidenav{
     background-color: #f2f2f2;
@@ -27,15 +25,12 @@ mat-drawer-content{
     width: auto;
     height: auto;
     display: block;
-    margin: auto;
-    
+    margin: auto;    
 }
 
 .app-container{        
     padding-top:64px;
     overflow-y: auto;
-    height: 100%;    
-    position: fixed;
     width: 100%;
 }
 
@@ -105,12 +100,7 @@ history-grid{
   {
     opacity: 0.5;
   }
-  
-  .example-rate-limit-reached {
-    max-width: 360px;
-    text-align: center;
-  }
-  
+    
   .mat-column-number,
   .mat-column-state {
     max-width: 64px;
@@ -121,20 +111,28 @@ history-grid{
   }
 }
 
-
 .mat-expansion-panel-body
 {
   padding: 8px;
 }
 
 .small-screen{
-  padding: 20px;  
+  padding: 8px 16px 8px 16px;  
 }
 
  @media screen and (max-width: 540px) {
   tbody .mat-cell {
     font-size: 12px ;
+  } 
+  
+  th:first-child, tr td:first-child {
+    padding-left: 8px !important;
   }
+  
+    th:last-child, tr td:last-child
+    {
+      padding-right: 8px !important;
+    }    
 }
 
 .large-screen{
@@ -144,15 +142,10 @@ history-grid{
   padding-right: 48px;
 }
 
-// .mat-form-field-label{
-//   //transform: none !important;
-// }
-
 app-item-component{
-
-.mat-expansion-panel-body{
-  padding: 0px;
-}
+  .mat-expansion-panel-body{
+    padding: 0px;
+  }
 }
 
 .red-snackbar{
@@ -169,3 +162,18 @@ app-item-component{
   color:#3f51b5;
   cursor: pointer;
 }
+
+.success-bar{
+  color: white;
+  background-color:#1B5E20;
+  .mat-simple-snackbar-action{
+    color: #fff;
+  }
+}
+
+// .expiring-soon{
+//   color: #E53935;
+// }
+// .expiring{
+//   color:#FB8C00;
+// }

@@ -37,7 +37,7 @@
                     <mat-label>Branches</mat-label>
                     <mat-select [(ngModel)]='user.branches' name='branches' multiple [required]='!user._id'
                         [compareWith]="objectComparisonFunction">
-                        <mat-option *ngFor="let branch of itemService.branches" [value]="branch">{{branch.name}}
+                        <mat-option *ngFor="let branch of branches" [value]="branch">{{branch.name}}
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
@@ -60,9 +60,8 @@
                 Add User</button>
         </div>
     </mat-accordion>
+    <hr>
 </div>
-
-<hr>
 <br>
 
 <div class="col-sm-8 m-1">
@@ -100,9 +99,9 @@
                 Add Category</button>
         </div>
     </mat-accordion>
+    <hr>
 </div>
 
-<hr>
 <br>
 
 <div class="col-sm-8 m-1">
@@ -139,4 +138,5 @@
                 Add branch</button>
         </div>
     </mat-accordion>
+    <hr>
 </div>

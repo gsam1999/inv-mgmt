@@ -5,7 +5,7 @@ import { MatSort, SortDirection } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { merge, Observable, of } from 'rxjs';
 import { catchError, map, startWith, switchMap } from 'rxjs/operators';
-import { item, ItemService, transaction } from 'src/app/services/item.service';
+import { branch, category, item, ItemService, transaction } from 'src/app/services/item.service';
 
 @Component({
   selector: 'history-grid',
@@ -15,29 +15,34 @@ export class HistoryGridComponent implements AfterViewInit, OnChanges, OnInit {
 
   @Input() item: item;
 
-  displayedColumns: string[] = ['createdAt', 'itemName', 'branch', 'action', 'username'];
+  displayedColumns: string[] = ['createdAt', 'itemName', 'branch', 'action', 'username', 'expiryDate'];
   data: transaction[] = [];
   resultsLength = 0;
   isLoading: boolean = true;
-  itemNames: Array<{ _id: string, name: string }> = []
 
-  filters: { [key: string]: any } = {};
+  filters: { item?: string, name?: string, branches?: Array<string> | null, category?: Array<string> | null, action?: "Add" | "Remove" } = {};
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
   constructor(private itemService: ItemService) { }
 
+
+  branches: branch[] = [];
+  categories: category[] = [];
+
   ngOnInit() {
 
     if (this.item)
-      this.filters.items = [{ _id: this.item._id }]
-    else
-      this.itemService.getItems().subscribe(data => {
-
-        data.forEach(item => this.itemNames.findIndex(ele => ele.name == item.name) == -1 && this.itemNames.push({ _id: item._id as string, name: item.name }))
-
+      this.filters.item = this.item._id
+    else {
+      this.itemService.getBranch().subscribe(data => {
+        this.branches = data;
       })
+      this.itemService.getCategory().subscribe(data => {
+        this.categories = data;
+      })
+    }
   }
 
   ngAfterViewInit() {
@@ -65,20 +70,46 @@ export class HistoryGridComponent implements AfterViewInit, OnChanges, OnInit {
 
   ngOnChanges() {
     if (this.item)
-      this.displayedColumns = ['createdAt', 'action', 'after', 'username']
+      this.displayedColumns = ['createdAt', 'action', 'after', 'username', 'comments', 'expiryDate']
     this.paginator && this.paginator.page.emit();
   }
 
 
   applyFilters() {
 
-    this.filters.items = this.itemNames.filter(ele => (ele.name == this.filters.item));
+    this.filters.branches && !this.filters.branches.length && (this.filters.branches = null)
+    this.filters.category && !this.filters.category.length && (this.filters.category = null)
 
-    this.paginator.page.emit()
+    this.paginator.pageIndex = 0;
+    this.paginator.page.emit();
   }
 
   clearFilters() {
     this.filters = {};
+  }
+
+  _MS_PER_DAY = 1000 * 60 * 60 * 24;
+
+  // a and b are javascript Date objects
+  dateDiffInDays(a: any, b: any): string {
+    // Discard the time and time-zone information.
+    const utc1 = Date.UTC(a.getFullYear(), a.getMonth(), a.getDate());
+    const utc2 = Date.UTC(b.getFullYear(), b.getMonth(), b.getDate());
+
+    let days = Math.floor((utc1 - utc2) / this._MS_PER_DAY)
+
+    if (days < 7)
+      return "expiring-soon"
+    else if (days < 16)
+      return "expiring"
+    return "";
+  }
+
+
+  getClass(row: transaction): string {
+    if (!row.expiryDate)
+      return ""
+    return this.dateDiffInDays(new Date(row.expiryDate), new Date());
   }
 
 }

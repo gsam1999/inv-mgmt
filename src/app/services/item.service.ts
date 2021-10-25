@@ -24,7 +24,9 @@ export interface transaction {
   _id?: string | null,
   item?: item | string,
   quantity: number,
-  action?: 'Remove' | 'Add' | null
+  action: 'Remove' | 'Add' | null,
+  comments?: string;
+  expiryDate?: string;
 }
 
 export interface category {
@@ -46,20 +48,8 @@ export interface branch {
 
 export class ItemService {
 
-  private _branches: Array<branch> = [];
-  get branches() {
-    return [...this._branches]
-  }
-  set branches(value) {
-    this._branches = value
-  }
-
-  categories: Array<category> = [];
-
 
   constructor(private http: HttpClient, private loader: LoaderService) {
-    this.http.get<Array<branch>>(environment.apiURI + 'items/branch').subscribe(data => { this.branches = data });
-    this.http.get<Array<category>>(environment.apiURI + 'items/category').subscribe(data => { this.categories = data });
   }
 
   addItem(items: Array<newItem>) {
@@ -74,6 +64,10 @@ export class ItemService {
     return this.loader.getObservable(this.http.get<item>(environment.apiURI + 'items/' + id));
   }
 
+  editItem(id: string, item: any) {
+    return this.loader.getObservable(this.http.put<item>(environment.apiURI + 'items/' + id, item));
+  }
+
   getHistory(sort: string, order: SortDirection, page: number, pageSize: number, filters: { [key: string]: any }): Observable<{ count: number, transactions: transaction[] }> {
     return this.http.get<{ count: number, transactions: transaction[] }>(environment.apiURI + `items/Transactions?sort=${sort}&order=${order}&size=${pageSize}&page=${page}&filters=${JSON.stringify(filters)}`)
   }
@@ -86,12 +80,20 @@ export class ItemService {
     return this.loader.getObservable(this.http.post<item>(environment.apiURI + 'items/Transactions', data), "Updating Quantity...");
   }
 
+  getCategory(): Observable<Array<category>> {
+    return this.http.get<Array<category>>(environment.apiURI + 'items/category');
+  }
+
   addCategory(category: category): Observable<Array<category>> {
     return this.http.post<Array<category>>(environment.apiURI + 'items/category', category);
   }
 
   updateCategory(category: category): Observable<Array<category>> {
     return this.http.post<Array<category>>(environment.apiURI + 'items/category', category);
+  }
+
+  getBranch() {
+    return this.http.get<Array<branch>>(environment.apiURI + 'items/branch')
   }
 
   addBranch(branch: branch): Observable<Array<branch>> {

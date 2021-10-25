@@ -17,9 +17,16 @@ export class HomeComponent implements OnInit {
   allItems: Array<item> = [];
   uniqueNames: string[] = [];
 
+  branches: branch[] = [];
+  categories: category[] = [];
+
   constructor(public itemService: ItemService) { }
 
   ngOnInit(): void {
+
+    this.itemService.getCategory().subscribe(data => { this.categories = data });
+    this.itemService.getBranch().subscribe(data => { this.branches = data });
+
     this.itemService.getItems().subscribe(data => {
       this.items = data;
       this.allItems = [...data]
