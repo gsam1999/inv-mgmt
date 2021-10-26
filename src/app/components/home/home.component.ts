@@ -11,7 +11,7 @@ export class HomeComponent implements OnInit {
   searchQuery: string = '';
   branchQuery: Array<string> = [];
   categoryQuery: Array<string> = [];
-  sortBy: string = '';
+  sortBy: string = 'needRefill';
 
   items: Array<item> = [];
   allItems: Array<item> = [];
@@ -33,6 +33,7 @@ export class HomeComponent implements OnInit {
       this.allItems.forEach(ele => {
         this.uniqueNames.indexOf(ele.name) == -1 && this.uniqueNames.push(ele.name)
       })
+      this.filterChange();
     });
   }
 

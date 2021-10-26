@@ -38,6 +38,9 @@
       <a mat-list-item [routerLink]="'/home'" routerLinkActive="sidenav-active-link" (click)="drawer.toggle()">
         <mat-icon>home</mat-icon> <span class="m-2">Home</span>
       </a>
+      <a mat-list-item [routerLink]="'/expiry'" routerLinkActive="sidenav-active-link" (click)="drawer.toggle()">
+        <mat-icon>warning</mat-icon><span class="m-2">Expiring Soon</span>
+      </a>
       <a mat-list-item [routerLink]="'/new-item'" routerLinkActive="sidenav-active-link" (click)="drawer.toggle()">
         <mat-icon>add_box</mat-icon> <span class="m-2">Create New Item</span>
       </a>
@@ -51,7 +54,7 @@
     </mat-nav-list>
   </mat-drawer>
   <mat-drawer-content>
-    <div #ele [ngClass]="ele.offsetWidth>1000? 'large-screen' :'small-screen'">
+    <div class="screen-size">
       <router-outlet></router-outlet>
     </div>
   </mat-drawer-content>

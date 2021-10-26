@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AdminComponent } from './components/admin/admin.component';
+import { ExpiryComponent } from './components/expiry/expiry.component';
 import { HistoryGridComponent } from './components/history-grid/history-grid.component';
 //import { HistoryComponent } from './components/history/history.component';
 import { HomeComponent } from './components/home/home.component';
@@ -14,6 +15,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
   { path: 'new-item', component: NewItemComponent, canActivate: [AuthGuard] },
+  { path: 'expiry', component: ExpiryComponent, canActivate: [AuthGuard] },
   { path: 'item/:id', component: ItemComponentComponent, canActivate: [AuthGuard] },
   { path: 'edit/:id', component: NewItemComponent, canActivate: [AuthGuard] },
   { path: 'history', component: HistoryGridComponent, canActivate: [AuthGuard] },

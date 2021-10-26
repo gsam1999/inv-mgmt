@@ -38,6 +38,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ErrorHandlerService } from './services/error-handler.service';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { ExpiryComponent } from './components/expiry/expiry.component';
 
 
 @NgModule({
@@ -50,7 +51,8 @@ import { MatNativeDateModule } from '@angular/material/core';
     //HistoryComponent,
     AdminComponent,
     ItemCardComponent,
-    HistoryGridComponent
+    HistoryGridComponent,
+    ExpiryComponent
   ],
   imports: [
     BrowserModule,

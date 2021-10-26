@@ -1,4 +1,4 @@
-<div class="mat-h1">Items List</div>
+<div class="mat-h2">Items List</div>
 
 <div *ngIf='allItems.length' class="m-1 p-1 col-md-10 mb-3">
     <mat-accordion displayMode='flat'>
@@ -13,7 +13,7 @@
                 <mat-form-field class="p-2">
                     <mat-label>Search by name</mat-label>
                     <input type="text" placeholder="Search By Name" matInput [(ngModel)]=searchQuery name='search'
-                        (ngModelChange)=filterChange() [matAutocomplete]="auto">
+                        [matAutocomplete]="auto">
                     <mat-autocomplete #auto="matAutocomplete">
                         <mat-option *ngFor="let name of uniqueNames" [value]="name">
                             {{name}}
@@ -23,7 +23,7 @@
 
                 <mat-form-field class="p-2">
                     <mat-label>Search By Branch</mat-label>
-                    <mat-select [(ngModel)]=branchQuery name='branch' multiple (ngModelChange)=filterChange()>
+                    <mat-select [(ngModel)]=branchQuery name='branch' multiple>
                         <mat-option *ngFor="let branch of branches" [value]="branch._id">{{branch.name}}
                         </mat-option>
                     </mat-select>
@@ -31,7 +31,7 @@
 
                 <mat-form-field class="p-2">
                     <mat-label>Item Category</mat-label>
-                    <mat-select [(ngModel)]="categoryQuery" name="category" (ngModelChange)=filterChange()>
+                    <mat-select [(ngModel)]="categoryQuery" name="category">
                         <mat-option *ngFor="let category of categories" [value]="category._id">
                             {{category.name}}
                         </mat-option>
@@ -40,7 +40,7 @@
 
                 <mat-form-field class="p-2">
                     <mat-label>Sort By</mat-label>
-                    <mat-select [(ngModel)]="sortBy" name="sort" (ngModelChange)=filterChange()>
+                    <mat-select [(ngModel)]="sortBy" name="sort">
                         <mat-option value="needRefill">
                             Need Refilling
                         </mat-option>
@@ -49,6 +49,10 @@
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
+
+                <button mat-raised-button color='primary' (click)="filterChange()" class="m-2">
+                    <mat-icon>search</mat-icon> Search
+                </button>
 
                 <button mat-raised-button (click)="clearFilters()" class="m-2">
                     <mat-icon>clear_all</mat-icon> Clear Filters

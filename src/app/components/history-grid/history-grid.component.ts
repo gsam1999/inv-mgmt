@@ -1,9 +1,7 @@
-import { HttpClient } from '@angular/common/http';
 import { AfterViewInit, Component, Input, OnChanges, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatSort, SortDirection } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
-import { merge, Observable, of } from 'rxjs';
+import { MatSort } from '@angular/material/sort';
+import { merge, of } from 'rxjs';
 import { catchError, map, startWith, switchMap } from 'rxjs/operators';
 import { branch, category, item, ItemService, transaction } from 'src/app/services/item.service';
 
@@ -15,18 +13,17 @@ export class HistoryGridComponent implements AfterViewInit, OnChanges, OnInit {
 
   @Input() item: item;
 
-  displayedColumns: string[] = ['createdAt', 'itemName', 'branch', 'action', 'username', 'expiryDate'];
+  displayedColumns: string[] = ['createdAt', 'itemName', 'action', 'branch', 'username', 'expiryDate'];
   data: transaction[] = [];
   resultsLength = 0;
   isLoading: boolean = true;
 
-  filters: { item?: string, name?: string, branches?: Array<string> | null, category?: Array<string> | null, action?: "Add" | "Remove" } = {};
+  filters: { item?: string, name?: string, branches?: Array<string> | null, category?: Array<string> | null, action?: "Add" | "Remove", expire?: boolean } = {};
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
   constructor(private itemService: ItemService) { }
-
 
   branches: branch[] = [];
   categories: category[] = [];
@@ -46,9 +43,7 @@ export class HistoryGridComponent implements AfterViewInit, OnChanges, OnInit {
   }
 
   ngAfterViewInit() {
-
     this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
-
     merge(this.sort.sortChange, this.paginator.page)
       .pipe(
         startWith({}),
@@ -74,42 +69,16 @@ export class HistoryGridComponent implements AfterViewInit, OnChanges, OnInit {
     this.paginator && this.paginator.page.emit();
   }
 
-
   applyFilters() {
-
-    this.filters.branches && !this.filters.branches.length && (this.filters.branches = null)
-    this.filters.category && !this.filters.category.length && (this.filters.category = null)
-
+    this.filters.branches && !this.filters.branches.length && (delete this.filters.branches)
+    this.filters.category && !this.filters.category.length && (delete this.filters.category)
     this.paginator.pageIndex = 0;
     this.paginator.page.emit();
   }
 
   clearFilters() {
     this.filters = {};
-  }
-
-  _MS_PER_DAY = 1000 * 60 * 60 * 24;
-
-  // a and b are javascript Date objects
-  dateDiffInDays(a: any, b: any): string {
-    // Discard the time and time-zone information.
-    const utc1 = Date.UTC(a.getFullYear(), a.getMonth(), a.getDate());
-    const utc2 = Date.UTC(b.getFullYear(), b.getMonth(), b.getDate());
-
-    let days = Math.floor((utc1 - utc2) / this._MS_PER_DAY)
-
-    if (days < 7)
-      return "expiring-soon"
-    else if (days < 16)
-      return "expiring"
-    return "";
-  }
-
-
-  getClass(row: transaction): string {
-    if (!row.expiryDate)
-      return ""
-    return this.dateDiffInDays(new Date(row.expiryDate), new Date());
+    this.applyFilters();
   }
 
 }

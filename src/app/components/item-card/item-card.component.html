@@ -2,13 +2,17 @@
     <div style=" border-radius: 4px;height: 4px;"
         [ngClass]="{'bg-danger':(item.monthlyRequired/2>item.quantity),'bg-warning':(item.monthlyRequired>item.quantity),'bg-success': item.monthlyRequired<=item.quantity}">
     </div>
-    <mat-card style="height: 345px;width: 240px;" class="mat-elevation-z0">
+    <mat-card style="height: 304px;width: 224px;padding-top: 12px;padding-bottom: 12px;" class="mat-elevation-z0">
         <mat-card-header>
             <mat-card-title> {{item.name}}</mat-card-title>
             <mat-card-subtitle>{{item?.category?.name + " - " + item?.branch?.name}}</mat-card-subtitle>
+            <button *ngIf='!lite' mat-mini-fab color="primary" routerLink='/edit/{{item._id}}'
+                style="transform: scale(0.8)">
+                <mat-icon>edit</mat-icon>
+            </button>
         </mat-card-header>
-        <div style="height: 160px;">
-            <img class="card-image" [src]="item.imageLink">
+        <div style="height: 120px;">
+            <img class="card-image" [src]="item.imageLink" alt="no image">
         </div>
         <mat-card-content class="m-1 mt-2">
             <div
@@ -26,9 +30,4 @@
                 routerLink='/item/{{item._id}}'>VIEW ITEM</button>
         </mat-card-actions>
     </mat-card>
-    <div class="d-flex flex-row-reverse">
-        <button *ngIf='!lite' mat-mini-fab color="primary" routerLink='/edit/{{item._id}}'>
-            <mat-icon>edit</mat-icon>
-        </button>
-    </div>
 </div>

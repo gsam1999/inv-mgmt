@@ -12,7 +12,7 @@
                 </mat-panel-title>
                 <mat-panel-description class="d-flex justify-content-between">
                     <span style="margin-right: 8px;max-width: 60px;">{{user.role}}</span>
-                    <span>{{getBranchNames(user.branches)}}</span>
+                    <!-- <span *ngIf='step1 === i'>{{getBranchNames(user.branches)}}</span> -->
                 </mat-panel-description>
             </mat-expansion-panel-header>
             <form #f='ngForm'>

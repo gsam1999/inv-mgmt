@@ -40,6 +40,10 @@
         </mat-select>
       </mat-form-field>
 
+      <mat-slide-toggle [color]="'primary'" class="m-2" [(ngModel)]="filters.expire" name=expire>
+        With Expiry Date
+      </mat-slide-toggle>
+      <br>
 
       <button mat-raised-button color='primary' (click)="applyFilters()" class="m-2">
         <mat-icon>search</mat-icon> Search
@@ -71,21 +75,16 @@
             }}</span></span></td>
     </ng-container>
 
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef>Action</th>
+      <td mat-cell *matCellDef="let row" [title]="row.action+' '+row.quantity"
+        [ngClass]='row.action=="Add"?"text-success":"text-danger"'>{{(row.action=="Add"?"+":"-")+"
+        "+row.quantity+" "+ (item?row.item.units:'') }}</td>
+    </ng-container>
+
     <ng-container matColumnDef="branch">
       <th mat-header-cell *matHeaderCellDef>Branch</th>
       <td mat-cell *matCellDef="let row"> <span> {{row.item.branch.name}} </span> </td>
-    </ng-container>
-
-    <ng-container matColumnDef="before">
-      <th mat-header-cell *matHeaderCellDef>Before</th>
-      <td mat-cell *matCellDef="let row">{{row.before}}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="action">
-      <th mat-header-cell *matHeaderCellDef>Action</th>
-      <td mat-cell *matCellDef="let row" [title]="row.action+'ed '+row.quantity"
-        [ngClass]='row.action=="Add"?"text-success":"text-danger"'>{{(row.action=="Add"?"+":"-")+"
-        "+row.quantity+" "+ (item?row.item.units:'') }}</td>
     </ng-container>
 
     <ng-container matColumnDef="after">
@@ -105,7 +104,7 @@
 
     <ng-container matColumnDef="expiryDate">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Exp. Date</th>
-      <td mat-cell *matCellDef="let row" [ngClass]="getClass(row)">{{row.expiryDate | date}}</td>
+      <td mat-cell *matCellDef="let row">{{(row.expiryDate | date )||"-" }}</td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -114,7 +113,7 @@
 
     <tr class="mat-row" *matNoDataRow>
       <td class="mat-cell" colspan="9999">
-        No data matching the filter
+        No data Available
       </td>
     </tr>
   </table>
