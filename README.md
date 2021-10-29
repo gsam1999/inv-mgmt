@@ -8,7 +8,7 @@ This inventory management application is used to manage inventory and stock acro
 
 ## Installation
 
-npm v7 is used to install the necessary dependencies. Use the following command to install the dependencies once inside the folder.
+Nodejs(version>12) is required to run the application. npm is used to install the necessary dependencies hence insatll npm (ersion>7). Use the following command to install the dependencies once inside the folder.
 
 ```bash
 npm install
