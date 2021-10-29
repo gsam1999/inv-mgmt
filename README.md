@@ -25,7 +25,7 @@ The URI of the API server is defined at src/environments/environment.ts for loca
 
 ## Deployment to Production
 
-refer to `https://angular.io/guide/deployment` to deploy the application to a server . To deploy the app to an existing website as a sub page use `ng build --base-href /sub-page/`.
+refer to `https://angular.io/guide/deployment` to deploy the application to a server . To deploy the app to an existing website as a sub page use `ng build --base-href /sub-page/` more infomation on this can be found at the above URL.
 
 
 
