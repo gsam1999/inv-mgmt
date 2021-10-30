@@ -49,11 +49,13 @@ export class NewItemComponent implements OnInit {
 
     this.itemService.addItem(items).subscribe(data => {
       this.snackbar.open("Items Added Successfully", "", { duration: 5000 })
+      this.model = { name: '', category: '', units: '', quantity: 0, imageLink: '', monthlyRequired: 0, branch: '', notes: '' };
+      this.branches = [];
+      this.itemService.getBranch().subscribe(data => this.branchList = data);
     })
   }
 
   updateItem() {
-
     this.item.name = this.model.name;
     this.item.category = this.model.category;
     this.item.notes = this.model.notes;

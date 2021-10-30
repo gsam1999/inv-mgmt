@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
 import { branch, category, item, ItemService } from 'src/app/services/item.service';
 
 @Component({
@@ -55,7 +54,7 @@ export class HomeComponent implements OnInit {
           return -1
       }
       else {
-        if (a.name > b.name) {
+        if (a.name >= b.name) {
           return 1;
         }
         if (a.name < b.name) {

@@ -14,7 +14,7 @@ export class ExpiryComponent implements OnInit {
 
   transactions: Array<transaction & { days?: number }> = [];
 
-  filters: { name?: string, branches?: Array<string> | null, category?: Array<string> | null, action?: "Add" | "Remove", expire?: boolean } = { expire: true };
+  filters: { name?: string, branches?: Array<string> | null, category?: Array<string> | null, action?: "Add" | "Remove", expire?: boolean, minDate?: Date } = { expire: true, minDate: new Date() };
 
   ngOnInit() {
     this.itemService.getBranch().subscribe(data => {
@@ -26,7 +26,7 @@ export class ExpiryComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    this.itemService.getHistory('expiryDate', 'asc', 0, 100, this.filters).subscribe(data => {
+    this.itemService.getHistory('expiryDate', 'asc', 0, 100, this.filters, true).subscribe(data => {
       this.transactions = data.transactions; this.transactions.forEach(ele => ele.days = this.dateDiffInDays(ele.expiryDate as string))
     });
   }
@@ -37,5 +37,16 @@ export class ExpiryComponent implements OnInit {
     const utc1 = Date.UTC(a.getFullYear(), a.getMonth(), a.getDate());
     const utc2 = Date.UTC(b.getFullYear(), b.getMonth(), b.getDate());
     return Math.floor((utc1 - utc2) / (1000 * 60 * 60 * 24))
+  }
+
+  clearFilters() {
+    this.filters = {};
+    this.filters.expire = true;
+    this.filters.minDate = new Date();
+    this.ngAfterViewInit();
+  }
+
+  applyFilters() {
+    this.ngAfterViewInit();
   }
 }

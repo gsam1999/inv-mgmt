@@ -17,6 +17,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => this.returnUrl = (params.returnUrl || this.returnUrl));
+    this.userService.isUserLoggedIn && this.router.navigate(['home'])
   }
 
   login() {

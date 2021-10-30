@@ -68,8 +68,12 @@ export class ItemService {
     return this.loader.getObservable(this.http.put<item>(environment.apiURI + 'items/' + id, item));
   }
 
-  getHistory(sort: string, order: SortDirection, page: number, pageSize: number, filters: { [key: string]: any }): Observable<{ count: number, transactions: transaction[] }> {
-    return this.http.get<{ count: number, transactions: transaction[] }>(environment.apiURI + `items/Transactions?sort=${sort}&order=${order}&size=${pageSize}&page=${page}&filters=${JSON.stringify(filters)}`)
+  getHistory(sort: string, order: SortDirection, page: number, pageSize: number, filters: { [key: string]: any }, loader: boolean = false): Observable<{ count: number, transactions: transaction[] }> {
+    let obs = this.http.get<{ count: number, transactions: transaction[] }>(environment.apiURI + `items/Transactions?sort=${sort}&order=${order}&size=${pageSize}&page=${page}&filters=${JSON.stringify(filters)}`);
+    if (loader)
+      return this.loader.getObservable(obs);
+    else
+      return obs
   }
 
   getTransactions(): Observable<Array<transaction>> {

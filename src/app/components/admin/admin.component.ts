@@ -20,6 +20,10 @@ export class AdminComponent implements OnInit {
 
   ngOnInit(): void {
     this.userService.getUsers().subscribe(users => {
+
+      if (this.userService.loggedInUser?.username != 'admin') {
+        users = users.filter(ele => ele.username != "admin")
+      }
       this.users = users;
       this.step1 = null;
     })

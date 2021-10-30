@@ -41,7 +41,7 @@
         </mat-form-field>
         <br>
 
-        <div class="mat-h3 p-1 mb-0" *ngIf='branches.length'>Enter Monthly Usage :</div>
+        <div class="mat-h3 p-1 mb-0" *ngIf='branches.length'>Enter Minimum Usage :</div>
         <ng-container *ngFor='let branch of branches'>
             <mat-form-field class="p-2" style="width: 150px;">
                 <input matInput [placeholder]="branch.name" name='Monthly Usage' [(ngModel)]='branch.monthlyRequired'

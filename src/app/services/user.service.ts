@@ -66,7 +66,7 @@ export class UserService {
     this.router.navigateByUrl('/login');
   }
 
-  getUsers() {
+  getUsers(): Observable<Array<User>> {
     return this.loader.getObservable(this.http.get<Array<User>>(environment.apiURI + 'users'))
   }
 

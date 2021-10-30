@@ -26,14 +26,14 @@
                     <input matInput [(ngModel)]="user.password" [required]='!user._id' type="password" name="password">
                 </mat-form-field>
 
-                <mat-form-field appearance="fill" class="p-2">
+                <mat-form-field appearance="fill" class="p-2" *ngIf='user.username!="admin"'>
                     <mat-label>Role</mat-label>
                     <mat-select [(ngModel)]='user.role' name='role' [required]='!user._id'>
                         <mat-option value="regular"> regular </mat-option>
                         <mat-option value="admin"> admin </mat-option>
                     </mat-select>
                 </mat-form-field>
-                <mat-form-field appearance="fill" class="p-2">
+                <mat-form-field appearance="fill" class="p-2" *ngIf='user.username!="admin"'>
                     <mat-label>Branches</mat-label>
                     <mat-select [(ngModel)]='user.branches' name='branches' multiple [required]='!user._id'
                         [compareWith]="objectComparisonFunction">
@@ -41,8 +41,8 @@
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
-                <mat-slide-toggle *ngIf='user._id' [color]="'primary'" class="m-2" [(ngModel)]="user.active"
-                    name=active>
+                <mat-slide-toggle *ngIf='user._id && user.username!="admin"' [color]="'primary'" class="m-2"
+                    [(ngModel)]="user.active" name=active>
                     Active User
                 </mat-slide-toggle>
             </form>
@@ -72,7 +72,8 @@
             <mat-expansion-panel-header class="p-2">
                 <mat-panel-title style="max-width: 200px;">
                     <mat-icon>category</mat-icon>
-                    <span style="margin-left: 8px;"> {{ category.name || "Add New Category" }}</span>
+                    <span style="margin-left: 8px;"> {{ category.name || "Add New Category" }} </span>
+                    <span> ({{category.active?"Active":"Inactive"}}) </span>
                 </mat-panel-title>
             </mat-expansion-panel-header>
             <form #f='ngForm'>
@@ -111,7 +112,8 @@
             <mat-expansion-panel-header class="p-2">
                 <mat-panel-title style="max-width: 200px;">
                     <mat-icon>home</mat-icon>
-                    <span style="margin-left: 8px;"> {{ branch.name || "Add New branch" }}</span>
+                    <span style="margin-left: 8px;"> {{ branch.name || "Add New branch" }} </span>
+                    <span> ({{branch.active?"Active":"Inactive"}}) </span>
                 </mat-panel-title>
             </mat-expansion-panel-header>
             <form #f='ngForm'>

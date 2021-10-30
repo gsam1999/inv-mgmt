@@ -15,7 +15,7 @@ export class ItemComponentComponent implements OnInit {
   model: transaction = { item: '', quantity: 0, action: null };
   message: string = '';
   open: number = -1;
-  minDate = Date.now();
+  minDate = new Date();
 
   ngOnInit(): void {
     let id = this.route.snapshot.paramMap.get('id');

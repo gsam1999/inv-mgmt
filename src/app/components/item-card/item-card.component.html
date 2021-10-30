@@ -18,7 +18,7 @@
             <div
                 [ngClass]="{'text-danger':(item.monthlyRequired/2>item.quantity),'text-warning':(item.monthlyRequired>item.quantity) }">
                 In Stock: {{item.quantity+" " + item.units}} <br>
-                Monthly Needed :{{item.monthlyRequired+" "+item.units}}
+                Min. Needed :{{item.monthlyRequired+" "+item.units}}
             </div>
             <div *ngIf='!lite && item.notes' class="mt-2">
                 Note : {{item.notes}}
