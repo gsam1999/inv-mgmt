@@ -1,27 +1,32 @@
-# InvMgmt
+# Inventory Management Angular Application
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.2.5.
+The current application use Angular(v12) UI framework as the frontend. 
 
-## Development server
+## Description
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+This inventory management application is used to manage inventory and stock across multiple locations with two levels of administration and user management. The UI of the applications is built using angular and uses JWT token based authentication to verify the users. The angular app communicates with the API server present here https://github.com/gsam1999/inv-mgmt-api. The app can be installed on both windows and Linux.
 
-## Code scaffolding
+## Installation
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Nodejs(version>12) is required to run the application. npm is used to install the necessary dependencies hence insatll npm (ersion>7). Use the following command to install the dependencies once inside the folder.
 
-## Build
+```bash
+npm install
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+```
+After the node modules are installed run 
 
-## Running unit tests
+```bash
+ng serve
+```
+This starts the angular server on http://localhost:4200, if all the dependencies are installed properly.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+The URI of the API server is defined at src/environments/environment.ts for localhost and src/environments/environment.prod.ts when building for production. Make sure the apiURL is pointing to the proper instance of API.
 
-## Running end-to-end tests
+## Deployment to Production
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+refer to `https://angular.io/guide/deployment` to deploy the application to a server . To deploy the app to an existing website as a sub page use `ng build --base-href /sub-page/` more infomation on this can be found at the above URL.
 
-## Further help
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+
+
